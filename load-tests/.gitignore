@@ -1,0 +1,5 @@
+# Raw load test data: kept locally, too large for the repository
+*.jfr
+*.jtl
+*.jtl.gz
+gc.log*
