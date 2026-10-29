@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.utils;
+package io.ballerina.lib.ibm.db2.utils;
 
 import io.ballerina.runtime.api.Environment;
 import io.ballerina.runtime.api.Module;

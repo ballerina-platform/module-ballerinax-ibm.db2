@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerina.lib.db2.compiler;
+package io.ballerina.lib.ibm.db2.compiler;
 
 import io.ballerina.compiler.api.symbols.ModuleSymbol;
 import io.ballerina.compiler.api.symbols.Symbol;
@@ -52,8 +52,8 @@ import io.ballerina.tools.diagnostics.Location;
 import java.util.List;
 import java.util.Optional;
 
-import static io.ballerina.lib.db2.compiler.Constants.UNNECESSARY_CHARS_REGEX;
-import static io.ballerina.lib.db2.compiler.Db2DiagnosticsCode.DB2_101;
+import static io.ballerina.lib.ibm.db2.compiler.Constants.UNNECESSARY_CHARS_REGEX;
+import static io.ballerina.lib.ibm.db2.compiler.Db2DiagnosticsCode.DB2_101;
 
 /**
  * Utils class.

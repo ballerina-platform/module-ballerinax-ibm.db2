@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.datasource;
+package io.ballerina.lib.ibm.db2.datasource;
 
 import com.ibm.db2.jcc.DB2XADataSource;
 

@@ -41,7 +41,7 @@ buildscript {
 
 description = 'Ballerina - IBM Db2 Ballerina Generator'
 
-def packageName = 'db2'
+def packageName = 'ibm.db2'
 def packageOrg = 'ballerinax'
 def tomlVersion = stripBallerinaExtensionVersion("${project.version}")
 

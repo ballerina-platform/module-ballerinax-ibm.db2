@@ -14,7 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerinax/db2;
+import ballerinax/ibm.db2;
 
 public function main() {
 

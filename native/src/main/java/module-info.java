@@ -16,13 +16,13 @@
  * under the License.
  */
 
-module io.ballerina.lib.db2 {
+module io.ballerina.lib.ibm.db2 {
     requires io.ballerina.runtime;
     requires io.ballerina.stdlib.sql;
     requires io.ballerina.lang;
     requires java.sql;
     requires jcc;
-    exports io.ballerina.lib.db2;
-    exports io.ballerina.lib.db2.nativeimpl;
-    exports io.ballerina.lib.db2.datasource;
+    exports io.ballerina.lib.ibm.db2;
+    exports io.ballerina.lib.ibm.db2.nativeimpl;
+    exports io.ballerina.lib.ibm.db2.datasource;
 }

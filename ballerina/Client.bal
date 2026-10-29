@@ -60,7 +60,7 @@ public isolated client class Client {
     #            or close the stream.
     remote isolated function query(sql:ParameterizedQuery sqlQuery, typedesc<record {}> rowType = <>)
     returns stream<rowType, sql:Error?> = @java:Method {
-        'class: "io.ballerina.lib.db2.nativeimpl.QueryProcessorUtils",
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.QueryProcessorUtils",
         name: "nativeQuery"
     } external;
 
@@ -73,7 +73,7 @@ public isolated client class Client {
     # + return - Result in the `returnType` type or an `sql:Error`
     remote isolated function queryRow(sql:ParameterizedQuery sqlQuery, typedesc<anydata> returnType = <>)
     returns returnType|sql:Error = @java:Method {
-        'class: "io.ballerina.lib.db2.nativeimpl.QueryProcessorUtils",
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.QueryProcessorUtils",
         name: "nativeQueryRow"
     } external;
 
@@ -83,7 +83,7 @@ public isolated client class Client {
     # + return - Execution metadata as an `sql:ExecutionResult`, or an `sql:Error` if execution fails
     remote isolated function execute(sql:ParameterizedQuery sqlQuery)
     returns sql:ExecutionResult|sql:Error = @java:Method {
-        'class: "io.ballerina.lib.db2.nativeimpl.ExecuteProcessorUtils",
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.ExecuteProcessorUtils",
         name: "nativeExecute"
     } external;
 
@@ -110,7 +110,7 @@ public isolated client class Client {
     #            if the call fails
     remote isolated function call(sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
     returns sql:ProcedureCallResult|sql:Error = @java:Method {
-        'class: "io.ballerina.lib.db2.nativeimpl.CallProcessorUtils",
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.CallProcessorUtils",
         name: "nativeCall"
     } external;
 
@@ -120,7 +120,7 @@ public isolated client class Client {
     #
     # + return - `sql:Error` if closing the client fails
     public isolated function close() returns sql:Error? = @java:Method {
-        'class: "io.ballerina.lib.db2.nativeimpl.ClientProcessorUtils",
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.ClientProcessorUtils",
         name: "close"
     } external;
 }
@@ -146,10 +146,10 @@ type ClientConfiguration record {|
 
 isolated function createClient(Client db2Client, ClientConfiguration clientConfig,
         sql:ConnectionPool globalConnPool) returns sql:Error? = @java:Method {
-    'class: "io.ballerina.lib.db2.nativeimpl.ClientProcessorUtils"
+    'class: "io.ballerina.lib.ibm.db2.nativeimpl.ClientProcessorUtils"
 } external;
 
 isolated function nativeBatchExecute(Client sqlClient, sql:ParameterizedQuery[] sqlQueries)
 returns sql:ExecutionResult[]|sql:Error = @java:Method {
-    'class: "io.ballerina.lib.db2.nativeimpl.ExecuteProcessorUtils"
+    'class: "io.ballerina.lib.ibm.db2.nativeimpl.ExecuteProcessorUtils"
 } external;

@@ -16,11 +16,11 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.compiler;
+package io.ballerina.lib.ibm.db2.compiler;
 
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
-import io.ballerina.lib.db2.compiler.analyzer.InitializerParamAnalyzer;
-import io.ballerina.lib.db2.compiler.analyzer.RecordAnalyzer;
+import io.ballerina.lib.ibm.db2.compiler.analyzer.InitializerParamAnalyzer;
+import io.ballerina.lib.ibm.db2.compiler.analyzer.RecordAnalyzer;
 import io.ballerina.projects.plugins.CodeAnalysisContext;
 import io.ballerina.projects.plugins.CodeAnalyzer;
 

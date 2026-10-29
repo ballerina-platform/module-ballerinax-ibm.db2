@@ -22,20 +22,20 @@ function init() {
 }
 
 isolated function setModule() = @java:Method {
-    'class: "io.ballerina.lib.db2.utils.ModuleUtils"
+    'class: "io.ballerina.lib.ibm.db2.utils.ModuleUtils"
 } external;
 
 # The iterator for the streams returned by the `query` and `call` remote methods. It reads the rows with the Db2
 # specific type mapping instead of the default behaviour of `sql:ResultIterator`.
 public class CustomResultIterator {
     public isolated function nextResult(sql:ResultIterator iterator) returns record {}|sql:Error? = @java:Method {
-        'class: "io.ballerina.lib.db2.utils.RecordIteratorUtils",
+        'class: "io.ballerina.lib.ibm.db2.utils.RecordIteratorUtils",
         paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
     } external;
 
     public isolated function getNextQueryResult(sql:ProcedureCallResult callResult)
     returns boolean|sql:Error = @java:Method {
-        'class: "io.ballerina.lib.db2.utils.RecordIteratorUtils",
+        'class: "io.ballerina.lib.ibm.db2.utils.RecordIteratorUtils",
         paramTypes: ["io.ballerina.runtime.api.values.BObject", "io.ballerina.runtime.api.values.BObject"]
     } external;
 }

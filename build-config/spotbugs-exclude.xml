@@ -18,8 +18,8 @@
 <FindBugsFilter>
     <Match>
         <Or>
-            <Class name="io.ballerina.lib.db2.parameterprocessor.Db2StatementParameterProcessor"/>
-            <Class name="io.ballerina.lib.db2.parameterprocessor.Db2ResultParameterProcessor"/>
+            <Class name="io.ballerina.lib.ibm.db2.parameterprocessor.Db2StatementParameterProcessor"/>
+            <Class name="io.ballerina.lib.ibm.db2.parameterprocessor.Db2ResultParameterProcessor"/>
         </Or>
         <Or>
             <Bug pattern="MS_EXPOSE_REP"/>
@@ -28,7 +28,7 @@
     </Match>
     <Match>
         <!-- Serialization of the XA data source is inherited from the IBM JCC data source. -->
-        <Class name="io.ballerina.lib.db2.datasource.Db2XADataSource"/>
+        <Class name="io.ballerina.lib.ibm.db2.datasource.Db2XADataSource"/>
         <Bug pattern="SE_BAD_FIELD,SE_NO_SUITABLE_CONSTRUCTOR"/>
     </Match>
 </FindBugsFilter>

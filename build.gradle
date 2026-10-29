@@ -24,7 +24,7 @@ plugins {
 
 description = 'Ballerina - IBM Db2'
 
-def packageName = "db2"
+def packageName = "ibm.db2"
 
 ext.ballerinaLangVersion = project.ballerinaLangVersion
 

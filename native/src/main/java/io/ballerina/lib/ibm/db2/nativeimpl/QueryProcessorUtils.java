@@ -16,10 +16,10 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.nativeimpl;
+package io.ballerina.lib.ibm.db2.nativeimpl;
 
-import io.ballerina.lib.db2.parameterprocessor.Db2ResultParameterProcessor;
-import io.ballerina.lib.db2.parameterprocessor.Db2StatementParameterProcessor;
+import io.ballerina.lib.ibm.db2.parameterprocessor.Db2ResultParameterProcessor;
+import io.ballerina.lib.ibm.db2.parameterprocessor.Db2StatementParameterProcessor;
 import io.ballerina.runtime.api.Environment;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BStream;

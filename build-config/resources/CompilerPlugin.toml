@@ -1,6 +1,6 @@
 [plugin]
-id = "db2-compiler-plugin"
-class = "io.ballerina.lib.db2.compiler.Db2CompilerPlugin"
+id = "ibm.db2-compiler-plugin"
+class = "io.ballerina.lib.ibm.db2.compiler.Db2CompilerPlugin"
 
 [[dependency]]
-path = "../compiler-plugin/build/libs/db2-compiler-plugin-@project.version@.jar"
+path = "../compiler-plugin/build/libs/ibm.db2-compiler-plugin-@project.version@.jar"

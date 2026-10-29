@@ -14,7 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerinax/db2;
+import ballerinax/ibm.db2;
 
 db2:Client dbClient = check new db2:Client("url", (), (), "SAMPLE", 120, { loginTimeout: -2 }, { maxOpenConnections: -1 });
 

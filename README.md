@@ -1,7 +1,7 @@
 # Ballerina IBM Db2 Connector
 
-[![Build](https://github.com/ballerina-platform/module-ballerinax-db2/actions/workflows/build-timestamped-master.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-db2/actions/workflows/build-timestamped-master.yml)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-db2.svg)](https://github.com/ballerina-platform/module-ballerinax-db2/commits/main)
+[![Build](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/actions/workflows/build-timestamped-master.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/actions/workflows/build-timestamped-master.yml)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-ibm.db2.svg)](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/commits/main)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Overview
@@ -26,11 +26,11 @@ The connector is built on the [`ballerina/sql`](https://central.ballerina.io/bal
 
 ### Add the driver
 
-The IBM JCC driver is provided by the `ballerinax/db2.driver` package. Import it alongside the connector:
+The IBM JCC driver is provided by the `ballerinax/ibm.db2.driver` package. Import it alongside the connector:
 
 ```ballerina
-import ballerinax/db2;
-import ballerinax/db2.driver as _;
+import ballerinax/ibm.db2;
+import ballerinax/ibm.db2.driver as _;
 ```
 
 You can also add another version of the driver yourself in the `Ballerina.toml` file:
@@ -61,8 +61,8 @@ The first start creates the instance and the database, which takes a few minutes
 ```ballerina
 import ballerina/io;
 import ballerina/sql;
-import ballerinax/db2;
-import ballerinax/db2.driver as _;
+import ballerinax/ibm.db2;
+import ballerinax/ibm.db2.driver as _;
 ```
 
 ### Step 2: Create a client
@@ -197,10 +197,10 @@ if result is sql:DatabaseError {
 
 ## Examples
 
-The [examples](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples) directory shows how to use the connector:
+The [examples](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/tree/main/examples) directory shows how to use the connector:
 
-1. [Basic operations](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples/basic-operations) - Create a table, insert, query, update and delete records.
-2. [Stored procedures and transactions](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples/procedures-and-transactions) - Call a stored procedure with OUT parameters and a result set, and group statements in a transaction.
+1. [Basic operations](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/tree/main/examples/basic-operations) - Create a table, insert, query, update and delete records.
+2. [Stored procedures and transactions](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/tree/main/examples/procedures-and-transactions) - Call a stored procedure with OUT parameters and a result set, and group statements in a transaction.
 
 ## Build from the source
 
@@ -233,7 +233,7 @@ All contributors are encouraged to read the [Ballerina Code of Conduct](https://
 
 ## Useful links
 
-* For more information go to the [`db2` package](https://central.ballerina.io/ballerinax/db2/latest).
+* For more information go to the [`db2` package](https://central.ballerina.io/ballerinax/ibm.db2/latest).
 * For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/).
 * Chat live with us via our [Discord server](https://discord.gg/ballerinalang).
 * Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.

@@ -35,7 +35,7 @@ dependencies {
 
     jacocoRuntime "org.jacoco:org.jacoco.agent:0.8.6:runtime"
 
-    implementation project(':db2-compiler-plugin')
+    implementation project(':ibm.db2-compiler-plugin')
 
     testImplementation group: 'org.ballerinalang', name: 'ballerina-lang', version: "${ballerinaLangVersion}"
     testImplementation group: 'org.ballerinalang', name: 'ballerina-tools-api', version: "${ballerinaLangVersion}"
@@ -74,7 +74,7 @@ jacocoTestReport {
     reports {
         xml.required = true
     }
-    sourceSets project(':db2-compiler-plugin').sourceSets.main
+    sourceSets project(':ibm.db2-compiler-plugin').sourceSets.main
 }
 
 spotbugsTest {
@@ -138,5 +138,5 @@ compileJava {
     }
 }
 
-test.dependsOn ":db2-ballerina:build"
-build.dependsOn ":db2-ballerina:build"
+test.dependsOn ":ibm.db2-ballerina:build"
+build.dependsOn ":ibm.db2-ballerina:build"

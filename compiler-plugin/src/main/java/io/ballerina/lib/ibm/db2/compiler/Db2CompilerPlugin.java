@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.compiler;
+package io.ballerina.lib.ibm.db2.compiler;
 
 import io.ballerina.projects.plugins.CompilerPlugin;
 import io.ballerina.projects.plugins.CompilerPluginContext;

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2;
+package io.ballerina.lib.ibm.db2;
 
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.BString;
@@ -32,7 +32,7 @@ public final class Constants {
     }
 
     public static final String JDBC_URL_PREFIX = "jdbc:db2://";
-    public static final String DB2_XA_DATASOURCE_NAME = "io.ballerina.lib.db2.datasource.Db2XADataSource";
+    public static final String DB2_XA_DATASOURCE_NAME = "io.ballerina.lib.ibm.db2.datasource.Db2XADataSource";
     public static final String POOL_CONNECTION_TIMEOUT = "connectionTimeout";
 
     /**

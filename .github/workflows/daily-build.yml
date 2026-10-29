@@ -23,7 +23,7 @@ jobs:
         if: github.event.action == 'check_connector_for_breaking_changes'
         run: |
           echo "BUILD_USING_DOCKER=-PbuildUsingDocker=nightly" >> $GITHUB_ENV
-          echo "GRADLE_SKIP_TASKS=-x :db2-compiler-plugin-tests:test"  >> $GITHUB_ENV
+          echo "GRADLE_SKIP_TASKS=-x :ibm.db2-compiler-plugin-tests:test"  >> $GITHUB_ENV
 
       # Build the project with Gradle
       - name: Build with Gradle
@@ -50,7 +50,7 @@ jobs:
           --data "{
             \"event_type\": \"$eventType\",
             \"client_payload\": {
-              \"repoName\": \"module-ballerinax-db2\",
+              \"repoName\": \"module-ballerinax-ibm.db2\",
               \"workflow\": \"Daily build\"
             }
           }"

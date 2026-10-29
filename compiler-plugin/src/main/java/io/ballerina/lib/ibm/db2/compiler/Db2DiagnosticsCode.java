@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerina.lib.db2.compiler;
+package io.ballerina.lib.ibm.db2.compiler;
 
 import io.ballerina.tools.diagnostics.DiagnosticSeverity;
 

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-module io.ballerina.lib.db2.compiler {
+module io.ballerina.lib.ibm.db2.compiler {
     requires io.ballerina.lang;
     requires io.ballerina.tools.api;
     requires io.ballerina.parser;

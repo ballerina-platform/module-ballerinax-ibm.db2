@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerina.lib.db2.compiler.analyzer;
+package io.ballerina.lib.ibm.db2.compiler.analyzer;
 
 import io.ballerina.compiler.api.symbols.ModuleSymbol;
 import io.ballerina.compiler.api.symbols.Symbol;
@@ -28,16 +28,16 @@ import io.ballerina.compiler.syntax.tree.ExpressionNode;
 import io.ballerina.compiler.syntax.tree.MappingConstructorExpressionNode;
 import io.ballerina.compiler.syntax.tree.ModuleVariableDeclarationNode;
 import io.ballerina.compiler.syntax.tree.VariableDeclarationNode;
-import io.ballerina.lib.db2.compiler.Constants;
-import io.ballerina.lib.db2.compiler.Utils;
+import io.ballerina.lib.ibm.db2.compiler.Constants;
+import io.ballerina.lib.ibm.db2.compiler.Utils;
 import io.ballerina.projects.plugins.AnalysisTask;
 import io.ballerina.projects.plugins.SyntaxNodeAnalysisContext;
 
 import java.util.Optional;
 
-import static io.ballerina.lib.db2.compiler.Constants.BALLERINAX;
-import static io.ballerina.lib.db2.compiler.Constants.DB2;
-import static io.ballerina.lib.db2.compiler.Utils.validateOptionConfig;
+import static io.ballerina.lib.ibm.db2.compiler.Constants.BALLERINAX;
+import static io.ballerina.lib.ibm.db2.compiler.Constants.DB2;
+import static io.ballerina.lib.ibm.db2.compiler.Utils.validateOptionConfig;
 
 /**
  * Analyser for validation db2:Options.

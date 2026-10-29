@@ -16,9 +16,9 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.utils;
+package io.ballerina.lib.ibm.db2.utils;
 
-import io.ballerina.lib.db2.Constants;
+import io.ballerina.lib.ibm.db2.Constants;
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.BDecimal;
 import io.ballerina.runtime.api.values.BMap;

@@ -32,19 +32,19 @@ plugins {
     id "com.gradle.develocity" version "3.19.2"
 }
 
-rootProject.name = 'ballerina-db2'
+rootProject.name = 'ballerina-ibm.db2'
 
 include ':checkstyle'
-include ':db2-native'
-include ':db2-compiler-plugin'
-include ':db2-ballerina'
-include ':db2-compiler-plugin-tests'
+include ':ibm.db2-native'
+include ':ibm.db2-compiler-plugin'
+include ':ibm.db2-ballerina'
+include ':ibm.db2-compiler-plugin-tests'
 
 project(':checkstyle').projectDir = file("build-config${File.separator}checkstyle")
-project(':db2-native').projectDir = file('native')
-project(':db2-compiler-plugin').projectDir = file('compiler-plugin')
-project(':db2-ballerina').projectDir = file('ballerina')
-project(':db2-compiler-plugin-tests').projectDir = file('compiler-plugin-tests')
+project(':ibm.db2-native').projectDir = file('native')
+project(':ibm.db2-compiler-plugin').projectDir = file('compiler-plugin')
+project(':ibm.db2-ballerina').projectDir = file('ballerina')
+project(':ibm.db2-compiler-plugin-tests').projectDir = file('compiler-plugin-tests')
 
 develocity {
     buildScan {

@@ -5,8 +5,8 @@
 // herein in any form is strictly forbidden, unless permitted by WSO2 expressly.
 // You may not alter or remove any copyright or other notice from copies of this content.
 
-import ballerinax/db2;
-import ballerinax/db2.driver as _;
+import ballerinax/ibm.db2;
+import ballerinax/ibm.db2.driver as _;
 
 # sql:ConnectionPool parameter record with default optimized values
 #

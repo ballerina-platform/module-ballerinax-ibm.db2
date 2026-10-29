@@ -15,14 +15,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerina.lib.db2.compiler;
+package io.ballerina.lib.ibm.db2.compiler;
 
 /**
  * Constants for Db2 compiler plugin.
  */
 public class Constants {
     public static final String BALLERINAX = "ballerinax";
-    public static final String DB2 = "db2";
+    public static final String DB2 = "ibm.db2";
     public static final String CONNECTION_POOL_PARM_NAME = "connectionPool";
     public static final String OPTIONS_PARM_NAME = "options";
 

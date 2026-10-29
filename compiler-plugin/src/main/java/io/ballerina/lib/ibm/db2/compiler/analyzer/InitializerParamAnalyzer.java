@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerina.lib.db2.compiler.analyzer;
+package io.ballerina.lib.ibm.db2.compiler.analyzer;
 
 import io.ballerina.compiler.syntax.tree.ExplicitNewExpressionNode;
 import io.ballerina.compiler.syntax.tree.ExpressionNode;
@@ -31,8 +31,8 @@ import io.ballerina.compiler.syntax.tree.RecordFieldWithDefaultValueNode;
 import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
 import io.ballerina.compiler.syntax.tree.SpecificFieldNode;
 import io.ballerina.compiler.syntax.tree.SpreadFieldNode;
-import io.ballerina.lib.db2.compiler.Constants;
-import io.ballerina.lib.db2.compiler.Utils;
+import io.ballerina.lib.ibm.db2.compiler.Constants;
+import io.ballerina.lib.ibm.db2.compiler.Utils;
 import io.ballerina.projects.plugins.AnalysisTask;
 import io.ballerina.projects.plugins.SyntaxNodeAnalysisContext;
 import io.ballerina.tools.diagnostics.DiagnosticFactory;
@@ -41,13 +41,13 @@ import io.ballerina.tools.diagnostics.DiagnosticInfo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.ballerina.lib.db2.compiler.Constants.CONNECTION_POOL_PARM_NAME;
-import static io.ballerina.lib.db2.compiler.Constants.OPTIONS_PARM_NAME;
-import static io.ballerina.lib.db2.compiler.Constants.UNNECESSARY_CHARS_REGEX;
-import static io.ballerina.lib.db2.compiler.Db2DiagnosticsCode.SQL_101;
-import static io.ballerina.lib.db2.compiler.Db2DiagnosticsCode.SQL_102;
-import static io.ballerina.lib.db2.compiler.Db2DiagnosticsCode.SQL_103;
-import static io.ballerina.lib.db2.compiler.Utils.getTerminalNodeValue;
+import static io.ballerina.lib.ibm.db2.compiler.Constants.CONNECTION_POOL_PARM_NAME;
+import static io.ballerina.lib.ibm.db2.compiler.Constants.OPTIONS_PARM_NAME;
+import static io.ballerina.lib.ibm.db2.compiler.Constants.UNNECESSARY_CHARS_REGEX;
+import static io.ballerina.lib.ibm.db2.compiler.Db2DiagnosticsCode.SQL_101;
+import static io.ballerina.lib.ibm.db2.compiler.Db2DiagnosticsCode.SQL_102;
+import static io.ballerina.lib.ibm.db2.compiler.Db2DiagnosticsCode.SQL_103;
+import static io.ballerina.lib.ibm.db2.compiler.Utils.getTerminalNodeValue;
 
 /**
  * Validate fields of sql:Connection pool fields.

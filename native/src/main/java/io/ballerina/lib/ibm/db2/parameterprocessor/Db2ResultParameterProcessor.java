@@ -16,10 +16,10 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.parameterprocessor;
+package io.ballerina.lib.ibm.db2.parameterprocessor;
 
-import io.ballerina.lib.db2.Constants;
-import io.ballerina.lib.db2.utils.ModuleUtils;
+import io.ballerina.lib.ibm.db2.Constants;
+import io.ballerina.lib.ibm.db2.utils.ModuleUtils;
 import io.ballerina.runtime.api.creators.ValueCreator;
 import io.ballerina.runtime.api.types.Type;
 import io.ballerina.runtime.api.types.TypeTags;

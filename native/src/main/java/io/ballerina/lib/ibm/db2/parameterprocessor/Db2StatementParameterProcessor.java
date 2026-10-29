@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.parameterprocessor;
+package io.ballerina.lib.ibm.db2.parameterprocessor;
 
 import io.ballerina.runtime.api.values.BXml;
 import io.ballerina.stdlib.sql.exception.DataError;

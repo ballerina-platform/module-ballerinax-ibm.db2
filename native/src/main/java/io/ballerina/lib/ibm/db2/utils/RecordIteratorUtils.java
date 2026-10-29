@@ -16,9 +16,9 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.utils;
+package io.ballerina.lib.ibm.db2.utils;
 
-import io.ballerina.lib.db2.parameterprocessor.Db2ResultParameterProcessor;
+import io.ballerina.lib.ibm.db2.parameterprocessor.Db2ResultParameterProcessor;
 import io.ballerina.runtime.api.values.BObject;
 
 /**

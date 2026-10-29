@@ -20,11 +20,11 @@ The connector is built on the [`ballerina/sql`](https://central.ballerina.io/bal
 
 ### Add the driver
 
-The IBM JCC driver is provided by the `ballerinax/db2.driver` package. Import it alongside the connector:
+The IBM JCC driver is provided by the `ballerinax/ibm.db2.driver` package. Import it alongside the connector:
 
 ```ballerina
-import ballerinax/db2;
-import ballerinax/db2.driver as _;
+import ballerinax/ibm.db2;
+import ballerinax/ibm.db2.driver as _;
 ```
 
 You can also add another version of the driver yourself in the `Ballerina.toml` file:
@@ -55,8 +55,8 @@ The first start creates the instance and the database, which takes a few minutes
 ```ballerina
 import ballerina/io;
 import ballerina/sql;
-import ballerinax/db2;
-import ballerinax/db2.driver as _;
+import ballerinax/ibm.db2;
+import ballerinax/ibm.db2.driver as _;
 ```
 
 ### Step 2: Create a client
@@ -191,7 +191,7 @@ if result is sql:DatabaseError {
 
 ## Examples
 
-The [examples](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples) directory shows how to use the connector:
+The [examples](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/tree/main/examples) directory shows how to use the connector:
 
-1. [Basic operations](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples/basic-operations) - Create a table, insert, query, update and delete records.
-2. [Stored procedures and transactions](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples/procedures-and-transactions) - Call a stored procedure with OUT parameters and a result set, and group statements in a transaction.
+1. [Basic operations](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/tree/main/examples/basic-operations) - Create a table, insert, query, update and delete records.
+2. [Stored procedures and transactions](https://github.com/ballerina-platform/module-ballerinax-ibm.db2/tree/main/examples/procedures-and-transactions) - Call a stored procedure with OUT parameters and a result set, and group statements in a transaction.

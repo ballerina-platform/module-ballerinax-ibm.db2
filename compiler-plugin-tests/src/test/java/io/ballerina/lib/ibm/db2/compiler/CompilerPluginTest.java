@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package io.ballerina.lib.db2.compiler;
+package io.ballerina.lib.ibm.db2.compiler;
 
 import io.ballerina.projects.DiagnosticResult;
 import io.ballerina.projects.Package;
@@ -35,7 +35,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.ballerina.lib.db2.compiler.Db2DiagnosticsCode.DB2_101;
+import static io.ballerina.lib.ibm.db2.compiler.Db2DiagnosticsCode.DB2_101;
 
 /**
  * Tests the custom SQL compiler plugin.
