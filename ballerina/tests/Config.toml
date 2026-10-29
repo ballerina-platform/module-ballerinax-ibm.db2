@@ -1,0 +1,3 @@
+[ballerina.sql]
+maxOpenConnections = 10
+minIdleConnections = 2

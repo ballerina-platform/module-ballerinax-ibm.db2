@@ -1,0 +1,6 @@
+[plugin]
+id = "db2-compiler-plugin"
+class = "io.ballerina.lib.db2.compiler.Db2CompilerPlugin"
+
+[[dependency]]
+path = "../compiler-plugin/build/libs/db2-compiler-plugin-0.1.0-SNAPSHOT.jar"
