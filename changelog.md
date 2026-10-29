@@ -1,124 +1,14 @@
 # Change Log
-This file contains all the notable changes done to the Ballerina oracledb package through the releases.
+This file contains all the notable changes done to the Ballerina db2 package through the releases.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Changed
-- Upgrade CDC dependencies to the Debezium 3.5.1-compatible release line.
-
-## [1.18.0] - 2026-04-01
-
 ### Added
-- [Add connection pool observability metrics support](https://github.com/ballerina-platform/ballerina-library/issues/7763)
-
-## [1.17.0] 
-
-### Added
-- [Introduce additional Debezium properties](https://github.com/ballerina-platform/ballerina-library/issues/8572)
-
-## [1.16.4] - 2026-03-16
-
-### Fixed
-- [Fix batchExecute performance degradation with nullable and decimal parameters against Azure/on-prem SQL Server](https://github.com/ballerina-platform/ballerina-library/issues/8700)
-
-## [1.16.1] - 2025-06-25
-
-### Changed
-- [Fix Library/Connector API doc issues in BI editor](https://github.com/ballerina-platform/ballerina-library/issues/7736)
-
-## [1.16.1]
-
-### Added
-- [Add compiler plugin validation to validate spread-field config initialization](https://github.com/ballerina-platform/ballerina-standard-library/issues/4594)
-
-### Changed
-- [Support retrieval of enum types](https://github.com/ballerina-platform/ballerina-standard-library/issues/4588)
-
-## [1.10.0] - 2023-06-30
-
-### Added
-- [Add compiler plugin validation to validate spread-field config initialization](https://github.com/ballerina-platform/ballerina-standard-library/issues/4594)
-
-### Changed
-- [Support retrieval of enum types](https://github.com/ballerina-platform/ballerina-standard-library/issues/4588)
-
-## [1.7.0] - 2023-02-20
-
-### Changed
-- [Remove SQL_901 diagnostic hint](https://github.com/ballerina-platform/ballerina-standard-library/issues/3609)
-- [Enable non-Hikari logs](https://github.com/ballerina-platform/ballerina-standard-library/issues/3763)
-
-## [1.6.2] - 2023-02-09
-
-### Changed
-- [Improve API docs based on Best practices](https://github.com/ballerina-platform/ballerina-standard-library/issues/3857)
-- [Fix compiler plugin failure when the diagnostic code is null](https://github.com/ballerina-platform/ballerina-standard-library/issues/4054)
-
-## [1.6.1] - 2022-12-01
-
-### Changed
-- [Updated API Docs on `mssql.driver` usages](https://github.com/ballerina-platform/ballerina-standard-library/issues/3710)
-
-## [1.6.0] - 2022-11-29
-
-### Added
-- [Support for XA transaction](https://github.com/ballerina-platform/ballerina-standard-library/issues/3598)
-
-### Changed
-- [Updated API docs](https://github.com/ballerina-platform/ballerina-standard-library/issues/3463)
-
-## [1.5.0] - 2022-09-08
-
-### Changed
-- [Change default username for client initialization to `sa`](https://github.com/ballerina-platform/ballerina-standard-library/issues/2397)
-
-## [1.4.1] - 2022-06-27
-
-### Changed
-- [Fix NullPointerException when retrieving record with default value](https://github.com/ballerina-platform/ballerina-standard-library/issues/2985)
-
-## [1.4.0] - 2022-05-20
-
-### Added
-- [Improve DB columns to Ballerina record Mapping through Annotation](https://github.com/ballerina-platform/ballerina-standard-library/issues/2652)
-
-### Changed
-- [Improve API documentation to reflect query usages](https://github.com/ballerina-platform/ballerina-standard-library/issues/2524)
-- [Fixed compiler plugin validation for `time` module constructs](https://github.com/ballerina-platform/ballerina-standard-library/issues/2893)
-- [Fix incorrect code snippet in SQL api docs](https://github.com/ballerina-platform/ballerina-standard-library/issues/2931)
-
-## [1.3.0] - 2022-01-29
-
-### Changed
-- [Fix Compiler plugin crash when variable is passed for `sql:ConnectionPool` and `mssql:Options`](https://github.com/ballerina-platform/ballerina-standard-library/issues/2536)
-
-## [1.2.1] - 2022-02-03
-
-### Changed
-- [Fix Compiler plugin crash when variable is passed for `sql:ConnectionPool` and `mssql:Options`](https://github.com/ballerina-platform/ballerina-standard-library/issues/2536)
-
-## [1.2.0] - 2021-12-13
-
-### Added
-- [Add tooling support](https://github.com/ballerina-platform/ballerina-standard-library/issues/2282)
-
-## [1.1.0] - 2021-11-20
-
-### Changed
-- [Change queryRow return type to anydata](https://github.com/ballerina-platform/ballerina-standard-library/issues/2390)
-
-## [1.0.0] - 2021-10-09
-
-### Added
-- [Add completion type as nil in SQL query return stream type](https://github.com/ballerina-platform/ballerina-standard-library/issues/1654)
-- Basic CRUD functionalities with an MSSQL database.
-- Insert functionality for DB specific data types.
-- Procedure calls with input and output parameters
-- Support for MSSQL Geometry data types 
-- [Add support for queryRow](https://github.com/ballerina-platform/ballerina-standard-library/issues/1604)
-
-### Changed
-- [Remove support for string parameter in SQL APIs](https://github.com/ballerina-platform/ballerina-standard-library/issues/2010)
+- Db2 client with `query`, `queryRow`, `execute`, `batchExecute` and `call` operations based on `ballerina/sql`
+- Connection options for TLS, the current schema, DRDA security mechanisms, timeouts, the client program name and additional JCC driver properties
+- XA data source support for distributed transactions
+- Mapping of the Db2 `DECFLOAT`, `XML`, `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` and `BOOLEAN` types
+- Compiler plugin validations for the connection pool and the timeout options

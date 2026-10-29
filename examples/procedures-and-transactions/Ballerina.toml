@@ -1,0 +1,8 @@
+[package]
+org = "db2"
+name = "procedures_and_transactions"
+version = "0.1.0"
+distribution = "2201.13.0"
+
+[build-options]
+observabilityIncluded = true

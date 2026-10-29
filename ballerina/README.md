@@ -1,550 +1,183 @@
 ## Overview
 
-This module provides the functionality required to access and manipulate data stored in an MSSQL database. It enables seamless integration with Microsoft SQL Server, supporting various data types and advanced database features.
+This package provides the functionality required to access and manipulate data stored in an IBM Db2 database.
 
-### Key Features
+[IBM Db2](https://www.ibm.com/db2) is a family of relational database servers that runs on Linux, UNIX and Windows (Db2 LUW), on IBM Z (Db2 for z/OS) and on IBM i, as well as a managed service on IBM Cloud and AWS.
 
-- Reliable and high-performance database connectivity
-- Support for common SQL operations (Query, Execute, Batch)
-- Efficient connection pooling and resource management
-- Support for Change Data Capture (CDC) and SSL
-- GraalVM compatible for native image builds
+The connector is built on the [`ballerina/sql`](https://central.ballerina.io/ballerina/sql/latest) package and uses the IBM Data Server Driver for JDBC and SQLJ (JCC, type 4) to talk to the server, so it offers the same programming model as the other Ballerina SQL connectors.
 
-### Prerequisite
-Add the MSSQL driver as a dependency to the Ballerina project.
+### Key features
 
->**Note**: `ballerinax/mssql` supports MSSQL driver versions above 9.20.
+- Query, execute, batch execute and stored procedure calls (IN, OUT, INOUT parameters and multiple result sets)
+- Local transactions and distributed (XA) transactions
+- Connection pooling, with a global pool shared by all clients by default
+- Db2 data types, including `DECFLOAT`, `GRAPHIC`/`VARGRAPHIC`/`DBCLOB`, `XML`, `BOOLEAN`, `BINARY`/`VARBINARY`, `FOR BIT DATA` columns and `TIMESTAMP(12)`
+- Readable server error messages with the SQLSTATE and SQLCODE available as error details
+- TLS and DRDA security mechanisms, including TLS client certificate authentication
+- Compile-time validation of connection pool and timeout values
 
-You can achieve this by importing the `ballerinax/mssql.driver` module,
- ```ballerina
- import ballerinax/mssql.driver as _;
- ```
+## Setup guide
 
-`ballerinax/mssql.driver` package bundles the latest MSSQL driver JAR.
+### Add the driver
 
->**Tip**: GraalVM native build is supported when `ballerinax/mssql` is used along with the `ballerinax/mssql.driver`
-
-If you want to add a MSSQL driver of a specific version, you can add it as a dependency in Ballerina.toml.
-Follow one of the following ways to add the JAR in the file:
-
-* Download the JAR and update the path.
-    ```
-    [[platform.java21.dependency]]
-    path = "PATH"
-    ```
-
-* Add JAR with the maven dependency params.
-    ```
-    [[platform.java21.dependency]]
-    groupId = "com.microsoft.sqlserver"
-    artifactId = "mssql-jdbc"
-    version = "12.8.1.jre11"
-    ```
-
-### Setup guide
-
-#### Change Data Capture
-
-1. **Ensure SQL Server Agent is Enabled**:
-   - The SQL Server Agent must be running to use CDC. Start the agent if it is not already running.
-
-2. **Enable CDC for the Database**:
-   - Run the following command to enable CDC for the database:
-     ```sql
-     USE <your_database_name>;
-     EXEC sys.sp_cdc_enable_db;
-     ```
-
-3. **Enable CDC for Specific Tables**:
-   - Enable CDC for the required tables by specifying the schema and table name:
-     ```sql
-     EXEC sys.sp_cdc_enable_table
-         @source_schema = 'your_schema_name',
-         @source_name = 'your_table_name',
-         @role_name = NULL;
-     ```
-
-4. **Verify CDC Configuration**:
-   - Run the following query to verify that CDC is enabled for the database:
-     ```sql
-     SELECT name, is_cdc_enabled FROM sys.databases WHERE name = 'your_database_name';
-     ```
-
-### Client
-To access a database, you must first create an
-[`mssql:Client`](https://docs.central.ballerina.io/ballerinax/mssql/latest#Client) object.
-The examples for creating an MSSQL client can be found below.
-
-> **Tip**: The client should be used throughout the application lifetime.
-
-#### Create a client
-These examples show the different methods of creating an `mssql:Client`.
-
-The client can be created with an empty constructor, and thereby, will be initialized with the default properties.
+The IBM JCC driver is provided by the `ballerinax/db2.driver` package. Import it alongside the connector:
 
 ```ballerina
-mssql:Client|sql:Error dbClient = new();
+import ballerinax/db2;
+import ballerinax/db2.driver as _;
 ```
 
-The `mssql:Client` receives the host, username, and password. Since the properties are passed in the same order as they are defined
-in the `mssql:Client`, you can pass them without named parameters.
+You can also add another version of the driver yourself in the `Ballerina.toml` file:
 
-```ballerina
-mssql:Client|sql:Error dbClient = new(
-   "localhost", "rootUser", "rootPass", "information_schema", 1443
-);
+```toml
+[[platform.java21.dependency]]
+groupId = "com.ibm.db2"
+artifactId = "jcc"
+version = "12.1.5.0"
 ```
 
-The sample below shows an `mssql:Client`, which uses named parameters to pass the attributes since some parameters are skipped in the constructor.
-Further, the [`mssql:Options`](https://docs.central.ballerina.io/ballerinax/mssql/latest#Options)
-property is passed to configure the SSL and login timeout properties in the MSSQL client.
+### Get a database
 
-```ballerina
-mssql:Options mssqlOptions = {
-  secureSocket: {
-    encrypt: true,
-    cert: {
-       path: "trustStorePath",
-       password: "password"
-    }
-  },
-  loginTimeout: 10
-};
+Any Db2 11.1 or later server works. For local development, run the free Db2 Community Edition:
 
-mssql:Client|sql:Error dbClient = new(
-   user = "rootUser", password = "rootPass", options = mssqlOptions
-);
+```bash
+docker run -d --name db2 --privileged -p 50000:50000 \
+  -e LICENSE=accept -e DB2INST1_PASSWORD=<password> -e DBNAME=SAMPLE \
+  icr.io/db2_community/db2:12.1.2.0
 ```
 
-Similarly, in the sample below, the `mssql:Client` uses named parameters, and it provides an unshared connection pool of the
-[`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest#ConnectionPool)
-type to be used within the client.
-For more details about connection pooling, see the [`sql` module](https://docs.central.ballerina.io/ballerina/sql/latest).
+The first start creates the instance and the database, which takes a few minutes.
+
+## Quickstart
+
+### Step 1: Import the connector
 
 ```ballerina
-mssql:Client|sql:Error dbClient = new(
-   user = "rootUser", password = "rootPass", 
-   connectionPool = {maxOpenConnections: 5}
-);
+import ballerina/io;
+import ballerina/sql;
+import ballerinax/db2;
+import ballerinax/db2.driver as _;
 ```
 
-#### SSL usage
-To connect to the MSSQL database using an SSL connection, you must add the SSL configurations to the `mssql:Options` when creating the `mssql:Client`.
-The value of `encrypt` must be set to `true`.
-If `trustServerCertificate` is set to `true`, the client will not validate the server TLS/SSL certificate (used for testing in local environments).
-The key and cert files must be provided in the `.p12` format.
+### Step 2: Create a client
 
 ```ballerina
-string clientStorePath = "/path/to/keystore.p12";
-string trustStorePath = "/path/to/truststore.p12";
+configurable string host = ?;
+configurable int port = 50000;
+configurable string user = ?;
+configurable string password = ?;
+configurable string database = ?;
 
-mssql:Options mssqlOptions = {
-  secureSocket: {
-    encrypt: true,
-    trustServerCertificate: false
-    key: {
-        path: clientStorePath,
-        password: "password"
-    },
-    cert: {
-        path: trustStorePath,
-        password: "password"
-    }
-  }
-};
+final db2:Client dbClient = check new (host, user, password, database, port);
 ```
 
-#### Handle connection pools
+The `database` is required. For Db2 for z/OS, it is the location name.
 
-All database modules share the same connection pooling concept and there are three possible scenarios for
-connection pool handling. For its properties and possible values, see [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest#ConnectionPool).
-
->**Note**: Connection pooling is used to optimize opening and closing connections to the database. However, the pool comes with an overhead. It is best to configure the connection pool properties as per the application need to get the best performance.
-
-1. Global, shareable, default connection pool
-
-   If you do not provide the `connectionPool` field when creating the database client, a globally-shareable pool will be
-   created for your database unless a connection pool matching with the properties you provided already exists.
-
-    ```ballerina
-    mssql:Client|sql:Error dbClient = new ("localhost", "rootUser", "rootPass");
-    ```
-
-2. Client-owned, unsharable connection pool
-
-   If you define the `connectionPool` field inline when creating the client with the `sql:ConnectionPool` type,
-   an unsharable connection pool will be created.
-
-    ```ballerina
-    mssql:Client|sql:Error dbClient = new ("localhost", "rootUser", "rootPass", 
-                                           connectionPool = { maxOpenConnections: 5 });
-    ```
-
-3. Local, shareable connection pool
-
-   If you create a record of the `sql:ConnectionPool` type and reuse that in the configuration of multiple clients,
-   for each set of clients that connects to the same database instance with the same set of properties, a shared
-   connection pool will be created.
-
-    ```ballerina
-    sql:ConnectionPool connPool = {maxOpenConnections: 5};
-    
-    mssql:Client|sql:Error dbClient1 = new(
-        "localhost", "rootUser", "rootPass", connectionPool = connPool
-    );
-    mssql:Client|sql:Error dbClient2 = new(
-        "localhost", "rootUser", "rootPass", connectionPool = connPool
-    );
-    mssql:Client|sql:Error dbClient3 = new(
-        "localhost", "rootUser", "rootPass", connectionPool = connPool
-    );
-    ```
-
-For more details about each property, see the [`mssql:Client`](https://docs.central.ballerina.io/ballerinax/mssql/latest#Client) constructor.
-
-The [`mssql:Client`](https://docs.central.ballerina.io/ballerinax/mssql/latest#Client) references
-[`sql:Client`](https://docs.central.ballerina.io/ballerina/sql/latest#Client) and all the operations
-defined by the `sql:Client` will be supported by the `mssql:Client` as well.
-
-#### Close the client
-
-Once all the database operations are performed, you can close the client you have created by invoking the `close()`
-operation. This will close the corresponding connection pool if it is not shared by any other database clients.
-
-> **Note**: The client must be closed only at the end of the application lifetime (or closed for graceful stops in a service).
+### Step 3: Run operations
 
 ```ballerina
-error? e = dbClient.close();
-```
-Or
-```ballerina
-check dbClient.close();
-```
-
-### Database operations
-
-Once the client is created, database operations can be executed through that client. This module defines the interface
-and common properties that are shared among multiple database clients. It also supports querying, inserting, deleting,
-updating, and batch updating data.
-
-#### Parameterized query
-
-The `sql:ParameterizedQuery` is used to construct the SQL query to be executed by the client.
-You can create a query with constant or dynamic input data as follows.
-
-*Query with constant values*
-
-```ballerina
-sql:ParameterizedQuery query = `SELECT * FROM students 
-                                WHERE id < 10 AND age > 12`;
-```
-
-*Query with dynamic values*
-
-```ballerina
-int[] ids = [10, 50];
-int age = 12;
-sql:ParameterizedQuery query = `SELECT * FROM students
-                                WHERE id < ${ids[0]} AND age > ${age}`;
-```
-
-Moreover, the SQL module has `sql:queryConcat()` and `sql:arrayFlattenQuery()` util functions which make it easier
-to create a dynamic/constant complex query.
-
-The `sql:queryConcat()` is used to create a single parameterized query by concatenating a set of parameterized queries.
-The sample below shows how to concatenate queries.
-
-```ballerina
-int id = 10;
-int age = 12;
-sql:ParameterizedQuery query = `SELECT * FROM students`;
-sql:ParameterizedQuery query1 = ` WHERE id < ${id} AND age > ${age}`;
-sql:ParameterizedQuery sqlQuery = sql:queryConcat(query, query1);
-```
-
-A query with the `IN` operator can be created using the `sql:ParameterizedQuery` as shown below. Here, you need to flatten the array and pass each element separated by a comma.
-
-```ballerina
-int[] ids = [1, 2, 3];
-sql:ParameterizedQuery query = `SELECT count(*) as total FROM DataTable 
-                                WHERE row_id IN (${ids[0]}, ${ids[1]}, ${ids[2]})`;
-```
-
-The `sql:arrayFlattenQuery()` util function is used to make the array flattening easier. It makes the inclusion of varying array elements into the query easier by flattening the array to return a parameterized query. You can construct the complex dynamic query with the `IN` operator by using both functions as shown below.
-
-```ballerina
-int[] ids = [1, 2];
-sql:ParameterizedQuery sqlQuery = 
-                         sql:queryConcat(`SELECT * FROM DataTable WHERE id IN (`, 
-                                          sql:arrayFlattenQuery(ids), `)`);
-```
-
-#### Create tables
-
-This sample creates a table with three columns. The first column is a primary key of type `int`
-while the second column is of type `int` and the other is of type `varchar`.
-The `CREATE` statement is executed via the `execute` remote method of the client.
-
-```ballerina
-// Create the ‘Students’ table with the ‘id’, ’age’, and ’name’ fields.
-sql:ExecutionResult result = 
-                check dbClient->execute(`CREATE TABLE student (
-                                           id INT AUTO_INCREMENT,
-                                           age INT, 
-                                           name VARCHAR(255), 
-                                           PRIMARY KEY (id)
-                                         )`);
-// A value of the sql:ExecutionResult type is returned for 'result'. 
-```
-
-#### Insert data
-
-These samples show the data insertion by executing an `INSERT` statement using the `execute` remote method
-of the client.
-
-In this sample, the query parameter values are passed directly into the query statement of the `execute`
-remote method.
-
-```ballerina
-sql:ExecutionResult result = check dbClient->execute(`INSERT INTO student(age, name)
-                                                        VALUES (23, 'john')`);
-```
-
-In this sample, the parameter values, which are assigned to local variables are used to parameterize the SQL query in
-the `execute` remote method. This type of parameterized SQL query can be used with any primitive Ballerina type
-such as `string`, `int`, `float`, or `boolean` and in that case, the corresponding SQL type of the parameter is derived
-from the type of the Ballerina variable that is passed.
-
-```ballerina
-string name = "Anne";
-int age = 8;
-
-sql:ParameterizedQuery query = `INSERT INTO student(age, name)
-                                  VALUES (${age}, ${name})`;
-sql:ExecutionResult result = check dbClient->execute(query);
-```
-
-In this sample, the parameter values are passed as an `sql:TypedValue` to the `execute` remote method. Use the
-corresponding subtype of the `sql:TypedValue` such as `sql:VarcharValue`, `sql:CharValue`, `sql:IntegerValue`, etc., when you need to
-provide more details such as the exact SQL type of the parameter.
-
-```ballerina
-sql:VarcharValue name = new ("James");
-sql:IntegerValue age = new (10);
-
-sql:ParameterizedQuery query = `INSERT INTO student(age, name)
-                                  VALUES (${age}, ${name})`;
-sql:ExecutionResult result = check dbClient->execute(query);
-```
-
-#### Insert data with auto-generated keys
-
-This sample demonstrates inserting data while returning the auto-generated keys. It achieves this by using the
-`execute` remote method to execute the `INSERT` statement.
-
-```ballerina
-int age = 31;
-string name = "Kate";
-
-sql:ParameterizedQuery query = `INSERT INTO student(age, name)
-                                  VALUES (${age}, ${name})`;
-sql:ExecutionResult result = check dbClient->execute(query);
-
-// Number of rows affected by the execution of the query.
-int? count = result.affectedRowCount;
-
-// The integer or string generated by the database in response to a query execution.
-string|int? generatedKey = result.lastInsertId;
-```
-
-#### Query data
-
-These samples show how to demonstrate the different usages of the `query` operation to query the
-database table and obtain the results as a stream.
-
->**Note**: When processing the stream, make sure to consume all fetched data or close the stream.
-
-This sample demonstrates querying data from a table in a database.
-First, a type is created to represent the returned result set. This record can be defined as an open or a closed record
-according to the requirement. If an open record is defined, the returned stream type will include both defined fields
-in the record and additional database columns fetched by the SQL query, which are not defined in the record.
-
->**Note**: the mapping of the database column to the returned record's property is case-insensitive if it is defined in  the record(i.e., the `ID` column in the result can be mapped to the `id` property in the record). Additional column names are added to the returned record as in the SQL query. If the record is defined as a closed record, only the  defined fields in the record are returned or gives an error when additional columns are present in the SQL query. 
-
-Next, the `SELECT` query is executed via the `query` remote method of the client. Once the query is executed, each data record 
-can be retrieved by iterating through the result set. The `stream` returned by the `SELECT` operation holds a pointer to the
-actual data in the database, and it loads data from the table only when it is accessed. This stream can be iterated only
-once.
-
-```ballerina
-// Define an open record type to represent the results.
-type Student record {
+type Employee record {|
     int id;
-    int age;
     string name;
+    decimal salary;
+|};
+
+public function main() returns error? {
+    // Query with parameters. Values are always sent as bind parameters, never concatenated.
+    string dept = "ENG";
+    stream<Employee, sql:Error?> employees = dbClient->query(
+        `SELECT ID AS "id", NAME AS "name", SALARY AS "salary" FROM EMPLOYEE WHERE DEPT = ${dept}`);
+    check from Employee e in employees
+        do {
+            io:println(e);
+        };
+
+    // Single row or value
+    int count = check dbClient->queryRow(`SELECT COUNT(*) FROM EMPLOYEE`);
+
+    // Insert and read the generated identity value
+    sql:ExecutionResult result = check dbClient->execute(
+        `INSERT INTO EMPLOYEE (NAME, DEPT, SALARY) VALUES (${"Ann"}, ${dept}, ${9500.00d})`);
+    int|string? newId = result.lastInsertId;
+}
+```
+
+## Connection options
+
+```ballerina
+db2:Options options = {
+    currentSchema: "PAYROLL",            // resolves unqualified table names
+    clientProgramName: "payroll-sync",   // shown in MON_GET_CONNECTION and `db2 list applications`
+    loginTimeout: 10,
+    socketTimeout: 60,
+    queryTimeout: 30,                    // statements running longer are cancelled (SQLSTATE 57014)
+    secureSocket: {
+        cert: {path: "truststore.p12", password: "changeit"}
+    }
 };
-
-// Select the data from the database table. The query parameters are passed 
-// directly. Similar to the `execute` samples, parameters can be passed as
-// sub types of `sql:TypedValue` as well.
-int id = 10;
-int age = 12;
-sql:ParameterizedQuery query = `SELECT * FROM students
-                                WHERE id < ${id} AND age > ${age}`;
-stream<Student, sql:Error?> resultStream = dbClient->query(query);
-
-// Iterating the returned table.
-check from Student student in resultStream
-   do {
-       // Can perform operations using the record 'student' of type `Student`.
-   };
+db2:Client dbClient = check new (host, user, password, database, port, options);
 ```
 
-Defining the return type is optional, and you can query the database without providing the result type. Hence,
-the above sample can be modified as follows with an open record type as the return type. The property name in the open record
-type will be the same as how the column is defined in the database.
+Any other [JCC property](https://www.ibm.com/docs/en/db2/12.1.x?topic=information-data-server-driver-jdbc-sqlj-properties) can be passed through `properties`, for example client reroute settings or IBM Cloud IAM authentication:
 
 ```ballerina
-// Select the data from the database table. The query parameters are passed 
-// directly. Similar to the `execute` samples, parameters can be passed as 
-// sub types of `sql:TypedValue` as well.
-int id = 10;
-int age = 12;
-sql:ParameterizedQuery query = `SELECT * FROM students
-                                WHERE id < ${id} AND age > ${age}`;
-stream<record{}, sql:Error?> resultStream = dbClient->query(query);
-
-// Iterating the returned table.
-check from record{} student in resultStream
-   do {
-      // Can perform operations using the record 'student'.
-      io:println("Student name: ", student.value["name"]);
-   };
+db2:Options options = {
+    properties: {"securityMechanism": 15, "pluginName": "IBMIAMauth", "apiKey": apiKey}
+};
 ```
 
-There are situations in which you may not want to iterate through the database, and in that case, you may decide
-to use the `queryRow()` operation. If the provided return type is a record, this method returns only the first row
-retrieved by the query as a record.
+## Db2 specifics
+
+### Type mapping
+
+| Db2 type | Ballerina type |
+|---|---|
+| `SMALLINT`, `INTEGER`, `BIGINT` | `int` |
+| `DECIMAL`, `NUMERIC` | `decimal` |
+| `DECFLOAT(16)`, `DECFLOAT(34)` | `decimal` (`float` or `string` for `Infinity`/`NaN`) |
+| `REAL`, `DOUBLE` | `float` |
+| `CHAR`, `VARCHAR`, `CLOB`, `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` | `string` |
+| `BINARY`, `VARBINARY`, `BLOB`, `CHAR`/`VARCHAR FOR BIT DATA` | `byte[]` |
+| `DATE` | `time:Date` |
+| `TIME` | `time:TimeOfDay` |
+| `TIMESTAMP(p)` | `time:Civil` (nanosecond precision; picoseconds are truncated) |
+| `BOOLEAN` | `boolean` |
+| `XML` | `xml` |
+
+`DECFLOAT` can hold `Infinity` and `NaN`, which a Ballerina `decimal` cannot represent. Mapping such a value to a `decimal` field returns an error that says so; map the column to `float` or `string` if it can hold these values.
+
+### Parameter markers need a type
+
+Db2 has to know the type of every parameter marker. A parameter whose type cannot be derived from the statement fails with `SQL0418N` (SQLSTATE `42610`), so add a cast:
 
 ```ballerina
-int id = 10;
-sql:ParameterizedQuery query = `SELECT * FROM students WHERE id = ${id}`;
-Student retrievedStudent = check dbClient->queryRow(query);
+// Fails: SELECT ? FROM SYSIBM.SYSDUMMY1
+int value = check dbClient->queryRow(`SELECT CAST(${5} AS INT) FROM SYSIBM.SYSDUMMY1`);
 ```
 
-The `queryRow()` operation can also be used to retrieve a single value from the database (e.g., when querying using
-`COUNT()` and other SQL aggregation functions). If the provided return type is not a record (i.e., a primitive data type)
-, this operation will return the value of the first column of the first row retrieved by the query.
+### Batch operations
+
+All statements in a `batchExecute` call must have the same SQL text. Bind values with the same type as the column (for example a `decimal` for a `DECIMAL` column): mixing an `int` value into a `DECIMAL` column makes the driver convert every row and made batches about 40% slower in our tests.
+
+### Distributed transactions
+
+Set `useXADatasource: true` on every client that takes part in an XA transaction. The Ballerina transaction manager uses one transaction branch for all resources, so the clients must point to different databases. Two XA clients on the same database in one transaction fail with `XAER_DUPID`; use a single client for each database instead.
+
+### Errors
+
+The connector asks the server for the message text, so errors read like `"DB2INST1.ORDERS" is an undefined name` instead of only an SQLCODE. The SQLSTATE and SQLCODE are available in the error detail:
 
 ```ballerina
-int age = 12;
-sql:ParameterizedQuery query = `SELECT COUNT(*) FROM students WHERE age < ${age}`;
-int youngStudents = check dbClient->queryRow(query);
-```
-
-#### Update data
-
-This sample demonstrates modifying data by executing an `UPDATE` statement via the `execute` remote method of
-the client.
-
-```ballerina
-int age = 23;
-sql:ParameterizedQuery query = `UPDATE students SET name = 'John' WHERE age = ${age}`;
-sql:ExecutionResult result = check dbClient->execute(query);
-```
-
-#### Delete data
-
-This sample demonstrates deleting data by executing a `DELETE` statement via the `execute` remote method of
-the client.
-
-```ballerina
-string name = "John";
-sql:ParameterizedQuery query = `DELETE from students WHERE name = ${name}`;
-sql:ExecutionResult result = check dbClient->execute(query);
-```
-
-#### Batch update data
-
-This sample demonstrates how to insert multiple records with a single `INSERT` statement that is executed via the
-`batchExecute` remote method of the client. This is done by creating a `table` with multiple records and
-parameterized SQL query as same as the above `execute` operations.
-
-```ballerina
-// Create the table with the records that need to be inserted.
-var data = [
-  { name: "John", age: 25 },
-  { name: "Peter", age: 24 },
-  { name: "jane", age: 22 }
-];
-
-// Do the batch update by passing the batches.
-sql:ParameterizedQuery[] batch = from var row in data
-                                 select `INSERT INTO students ('name', 'age')
-                                           VALUES (${row.name}, ${row.age})`;
-sql:ExecutionResult[] result = check dbClient->batchExecute(batch);
-```
-
-#### Execute SQL stored procedures
-
-This sample demonstrates how to execute a stored procedure with a single `INSERT` statement that is executed via the
-`call` remote method of the client.
-
-```ballerina
-int uid = 10;
-sql:IntegerOutParameter insertId = new;
-
-sql:ProcedureCallResult result = 
-                         check dbClient->call(`call InsertPerson(${uid}, ${insertId})`);
-stream<record{}, sql:Error?>? resultStr = result.queryResult;
-if resultStr is stream<record{}, sql:Error?> {
-   check from record{} result in resultStr
-      do {
-         // Can perform operations using the record 'result'.
-      };
-}
-check result.close();
-```
-
->**Note**: Once the results are processed, the `close` method on the `sql:ProcedureCallResult` must be called.
-
->**Note**: The default thread pool size used in Ballerina is: `the number of processors available * 2`. You can configure the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
-
-### Change Data Capture Listener
-
-To listen for change data capture (CDC) events from a MSSQL database, you must create a [`mssql:CdcListener`](https://docs.central.ballerina.io/ballerinax/mssql/latest#CdcListener) object. The listener allows your Ballerina application to react to changes (such as inserts, updates, and deletes) in real time.
-
-#### Create a listener
-
-You can create a CDC listener by specifying the required configurations such as host, port, username, password, and database name. Additional options can be provided using the [`cdc:Options`](https://docs.central.ballerina.io/ballerinax/cdc/latest#Options) record.
-
-```ballerina
-listener mssql:CdcListener cdcListener = new (database = {
-    username: <username>,
-    password: <password>
-});
-```
-
-#### Implement a service to handle CDC events
-
-You can attach a service to the listener to handle CDC events. The service can define remote methods for different event types such as `onRead`, `onCreate`, `onUpdate`, and `onDelete`.
-
-```ballerina
-service on cdcListener {
-    remote function onRead(record{} after) returns cdc:Error? {
-        io:println("Insert event: ", after);
-    }
-
-    remote function onCreate(record{} after) returns cdc:Error? {
-        io:println("Insert event: ", after);
-    }
-
-    remote function onUpdate(record{} before, record{} after) returns cdc:Error? {
-        io:println("Update event - Before: ", before, " After: ", after);
-    }
-
-    remote function onDelete(record{} before) returns error? {
-        io:println("Delete event: ", before);
-    }
+sql:ExecutionResult|sql:Error result = dbClient->execute(`INSERT INTO ORDERS VALUES (${id})`);
+if result is sql:DatabaseError {
+    int sqlCode = result.detail().errorCode;   // e.g. -803
+    string? sqlState = result.detail().sqlState; // e.g. "23505"
 }
 ```
+
+## Examples
+
+The [examples](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples) directory shows how to use the connector:
+
+1. [Basic operations](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples/basic-operations) - Create a table, insert, query, update and delete records.
+2. [Stored procedures and transactions](https://github.com/ballerina-platform/module-ballerinax-db2/tree/main/examples/procedures-and-transactions) - Call a stored procedure with OUT parameters and a result set, and group statements in a transaction.
