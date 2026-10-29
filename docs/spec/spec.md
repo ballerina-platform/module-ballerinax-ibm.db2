@@ -102,13 +102,13 @@ public type Options record {|
 # + certFile - Path to a PEM or ARM file with the server (or CA) certificate
 # + key - Keystore holding the client certificate and private key
 # + tlsVersion - TLS protocol version to use
-# + verifyHostName - Validate that the host name of the server matches the server certificate
+# + verifyHostName - Validate that the host name used to connect matches a name in the server certificate
 public type SecureSocket record {|
     crypto:TrustStore cert?;
     string certFile?;
     crypto:KeyStore key?;
     string tlsVersion?;
-    boolean verifyHostName = false;
+    boolean verifyHostName = true;
 |};
 
 # DRDA security mechanisms supported by the Db2 client.
@@ -131,7 +131,7 @@ The options map to the JCC driver properties as follows.
 | `secureSocket.certFile` | `sslCertLocation` |
 | `secureSocket.key` | `sslKeyStoreLocation`, `sslKeyStorePassword`, `sslKeyStoreType` |
 | `secureSocket.tlsVersion` | `sslVersion` |
-| `secureSocket.verifyHostName` | `sslClientHostnameValidation=BASIC` |
+| `secureSocket.verifyHostName` | `sslClientHostnameValidation` (`BASIC` when `true`, the default, and `OFF` when `false`) |
 | `currentSchema` | `currentSchema` |
 | `securityMechanism` | `securityMechanism` (3, 7, 9, 13, 11 and 18 respectively) |
 | `loginTimeout` | `loginTimeout` (and the pool connection timeout) |

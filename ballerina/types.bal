@@ -48,13 +48,14 @@ public type Options record {|
 # + certFile - Path to a PEM or ARM file with the server (or CA) certificate. Used instead of `cert`
 # + key - Keystore holding the client certificate and private key. Required for TLS client certificate authentication
 # + tlsVersion - TLS protocol version to use (e.g., `TLSv1.3`). The JVM default is used when not provided
-# + verifyHostName - Validate that the host name of the server matches the server certificate
+# + verifyHostName - Validate that the host name used to connect matches a name in the server certificate.
+#                    Disable only for test servers whose certificate does not name the host
 public type SecureSocket record {|
     crypto:TrustStore cert?;
     string certFile?;
     crypto:KeyStore key?;
     string tlsVersion?;
-    boolean verifyHostName = false;
+    boolean verifyHostName = true;
 |};
 
 # DRDA security mechanisms supported by the Db2 client.

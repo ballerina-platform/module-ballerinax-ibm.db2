@@ -132,9 +132,10 @@ public final class Utils {
         if (tlsVersion != null) {
             properties.put(Constants.DriverProps.SSL_VERSION, tlsVersion);
         }
-        if (secureSocket.getBooleanValue(Constants.SecureSocket.VERIFY_HOST_NAME)) {
-            properties.put(Constants.DriverProps.SSL_HOSTNAME_VALIDATION, StringUtils.fromString("BASIC"));
-        }
+        // The JCC driver validates the host name by default, so the value is always set explicitly.
+        boolean verifyHostName = secureSocket.getBooleanValue(Constants.SecureSocket.VERIFY_HOST_NAME);
+        properties.put(Constants.DriverProps.SSL_HOSTNAME_VALIDATION,
+                StringUtils.fromString(verifyHostName ? "BASIC" : "OFF"));
     }
 
     private static BString getStoreType(String path) {
