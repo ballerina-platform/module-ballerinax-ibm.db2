@@ -214,8 +214,11 @@ function testQueryTimeout() returns error? {
     if result !is sql:Error {
         test:assertFail("Expected the statement to be cancelled by the query timeout");
     }
-    test:assertTrue(result.message().includes("57014") || result.message().includes("-952") ||
-        result.message().toLowerAscii().includes("timeout"), result.message());
+    // The SQLCODE and SQLSTATE of the cancellation are in the error detail. The message text is fetched from the
+    // server with a second request, which does not always succeed right after a cancellation.
+    sql:DatabaseErrorDetail detail = (<sql:DatabaseError>result).detail();
+    test:assertTrue(detail.errorCode == -952 || detail.sqlState == "57014",
+        string `${result.message()} ${detail.toString()}`);
     // The connection remains usable after the cancellation.
     int one = check dbClient->queryRow(`SELECT 1 FROM SYSIBM.SYSDUMMY1`);
     test:assertEquals(one, 1);

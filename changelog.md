@@ -12,3 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - XA data source support for distributed transactions
 - Mapping of the Db2 `DECFLOAT`, `XML`, `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` and `BOOLEAN` types
 - Compiler plugin validations for the connection pool and the timeout options
+- `BinaryOutParameter`, `VarBinaryOutParameter`, `BlobOutParameter` and `XmlOutParameter` for reading binary and XML OUT parameters
+- UTC storage of `time:Utc` values and `time:Civil` values with a `utcOffset`, and UTC interpretation of `TIMESTAMP` columns read as `time:Utc` or `int`
+- Clear errors for array parameters, `NaN`/`Infinity` values and `time:TimeOfDay` values with a `utcOffset`
+- `sql:NClobValue` support (bound as a CLOB) and string timestamps in INOUT parameters
+- Tests for every Db2 data type, stored procedure parameter type, batch behaviour and special characters

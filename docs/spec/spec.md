@@ -26,6 +26,7 @@ The conforming implementation of the specification is released to Ballerina cent
 3. [Queries and values](#3-queries-and-values)
     * 3.1. [Type mapping](#31-type-mapping)
     * 3.2. [Parameters](#32-parameters)
+    * 3.3. [OUT parameters](#33-out-parameters)
 4. [Database operations](#4-database-operations)
 5. [Transactions](#5-transactions)
 6. [Errors](#6-errors)
@@ -164,20 +165,43 @@ In addition to the generic mapping of the `sql` module, the Db2 client maps the 
 | Db2 type | Ballerina type | Notes |
 |---|---|---|
 | `DECFLOAT(16)`, `DECFLOAT(34)` | `decimal`, `float`, `int`, `string` | Returned as `decimal` for `anydata` fields. `Infinity`, `-Infinity`, `NaN` and `sNaN` are returned as `string` for `anydata` fields and result in an `sql:Error` for `decimal` fields. |
-| `XML` | `xml` | Parsed from the serialized document. |
-| `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` | `string` | |
-| `BOOLEAN` | `boolean` | |
-| `TIMESTAMP(p)` | `time:Civil`, `time:Utc`, `string` | Nanosecond precision. |
+| `XML` | `xml`, `string` | Parsed from the serialized document. |
+| `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` | `string` | Lengths count UTF-16 code units. |
+| `CHAR`, `VARCHAR`, `CLOB` | `string` | Lengths count UTF-8 bytes. |
+| `BOOLEAN` | `boolean`, `int`, `string` | |
+| `TIMESTAMP(p)` | `time:Civil`, `time:Utc`, `int`, `string` | Nanosecond precision. `time:Utc` and `int` (epoch milliseconds) interpret the stored wall clock time as UTC. |
+| `TIME` | `time:TimeOfDay`, `string` | No fractional seconds. |
 
-This mapping applies to `queryRow`, to every row of the streams returned by `query`, and to the result sets of `call`. `XML` OUT parameters are parsed in the same way.
+This mapping applies to `queryRow`, to every row of the streams returned by `query`, and to the result sets of `call`.
 
 ## 3.2. Parameters
 
 A nil value is sent to the server as a typed null, because the JCC driver does not accept the JDBC `NULL` type. The server takes the type of the parameter marker from its context, so the value can be inserted into a nullable column of any type.
 
-An `xml` value is sent as a serialized XML document.
+Every `sql:*Value` typed parameter except the array values is supported. The driver cannot bind arrays, so Ballerina arrays and the `sql:*ArrayValue` types are rejected with an `sql:DataError`.
+
+An `xml` value is sent as a serialized XML document. An `sql:NClobValue` is sent as a CLOB, because the driver has no `createNClob`.
+
+Db2 has no time zone types. A `time:Utc` value and a `time:Civil` value with a `utcOffset` are stored as the UTC wall clock time with their full precision. A `time:TimeOfDay` with a `utcOffset` is rejected with an `sql:DataError`. A timestamp or time given as a string is accepted in the JDBC (`2024-02-29 10:11:12.5`), ISO 8601 (`2024-02-29T10:11:12.5`) and Db2 (`2024-02-29-10.11.12.500000`) notations.
+
+A `float` value that is `NaN` or infinite is rejected with an `sql:DataError`, because `DOUBLE` and `REAL` have no such values and the driver cannot bind them for `DECFLOAT` columns. The SQL literal `DECFLOAT('NaN')` stores such a value.
 
 Db2 must be able to derive the type of every parameter marker from the statement. Otherwise, the statement fails with `SQL0418N` (SQLSTATE `42610`), and the parameter has to be cast, for example `` `SELECT CAST(${value} AS INT) FROM SYSIBM.SYSDUMMY1` ``.
+
+## 3.3. OUT parameters
+
+The `sql` module converts the values of its own OUT parameter classes with its default conversion, which cannot read the binary and XML values returned by the Db2 driver. This module therefore defines the following OUT parameter classes, which must be used instead of the matching `sql` classes. Using the `sql` classes for these types results in an `sql:DataError` that names the replacement.
+
+```ballerina
+public distinct class BinaryOutParameter { *sql:OutParameter; }
+public distinct class VarBinaryOutParameter { *sql:OutParameter; }
+public distinct class BlobOutParameter { *sql:OutParameter; }
+public distinct class XmlOutParameter { *sql:OutParameter; }
+```
+
+The value of an `XmlOutParameter` can be read as `xml` or `string`, and more than once. A `DECFLOAT` OUT parameter is read with `sql:DecimalOutParameter`, or with `sql:DoubleOutParameter` or `sql:VarcharOutParameter` when it can hold `NaN` or `Infinity`. A NULL `BOOLEAN` OUT value is detected, but cannot be returned through the typed `get` of `sql:BooleanOutParameter`.
+
+An `sql:InOutParameter` is registered with the SQL type of the value passed in. A nil is registered as `VARCHAR` and the returned value is read as a `string`; a typed null such as `new sql:DecimalValue()` keeps the type. An `xml` value is bound as a string for the same reason, and the returned document is read as a `string`.
 
 # 4. Database operations
 
@@ -192,7 +216,9 @@ For more information on database operations see the [SQL specification](https://
 
 The `lastInsertId` of the `sql:ExecutionResult` returned by `execute` holds the value of the identity column of the inserted row. Db2 does not return the generated keys of batched statements, so `batchExecute` returns nil `lastInsertId` values.
 
-When a command of a batch fails, Db2 continues with the remaining commands. The returned `sql:BatchExecuteError` holds the result of every command, where a failed command has an `affectedRowCount` of `-3`.
+When a command of a batch fails, Db2 continues with the remaining commands. The returned `sql:BatchExecuteError` holds the result of every command, where a failed command has an `affectedRowCount` of `-3`, and the driver's batch failure code `-4229`. All the commands of a batch must have the same SQL text; the commands are sent in chunks of 1,000.
+
+Db2 procedures are called with `CALL` or the JDBC escape `{CALL ...}`. Functions cannot be called with `CALL`. The OUT parameters of a call must be read before the `sql:ProcedureCallResult` is closed.
 
 # 5. Transactions
 

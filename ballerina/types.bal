@@ -15,6 +15,8 @@
 // under the License.
 
 import ballerina/crypto;
+import ballerina/jballerina.java;
+import ballerina/sql;
 
 # Advanced Db2 connection options.
 #
@@ -72,4 +74,64 @@ public enum SecurityMechanism {
     KERBEROS = "KERBEROS",
     # Authentication using the client certificate in `SecureSocket.key`
     TLS_CLIENT_CERTIFICATE = "TLS_CLIENT_CERTIFICATE"
+}
+
+# Represents a `BINARY` or `CHAR FOR BIT DATA` OUT parameter of a stored procedure. Use it instead of
+# `sql:BinaryOutParameter`, which cannot read the bytes returned by the Db2 driver.
+public distinct class BinaryOutParameter {
+    *sql:OutParameter;
+
+    # Parses the returned binary value to a Ballerina value.
+    #
+    # + typeDesc - The `typedesc` of the type to which the result needs to be returned
+    # + return - The result in the `typeDesc` type, or an `sql:Error`
+    public isolated function get(typedesc<anydata> typeDesc = <>) returns typeDesc|sql:Error = @java:Method {
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.OutParameterProcessorUtils",
+        name: "getOutParameterValue"
+    } external;
+}
+
+# Represents a `VARBINARY` or `VARCHAR FOR BIT DATA` OUT parameter of a stored procedure. Use it instead of
+# `sql:VarBinaryOutParameter`, which cannot read the bytes returned by the Db2 driver.
+public distinct class VarBinaryOutParameter {
+    *sql:OutParameter;
+
+    # Parses the returned binary value to a Ballerina value.
+    #
+    # + typeDesc - The `typedesc` of the type to which the result needs to be returned
+    # + return - The result in the `typeDesc` type, or an `sql:Error`
+    public isolated function get(typedesc<anydata> typeDesc = <>) returns typeDesc|sql:Error = @java:Method {
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.OutParameterProcessorUtils",
+        name: "getOutParameterValue"
+    } external;
+}
+
+# Represents an `XML` OUT parameter of a stored procedure. Use it instead of `sql:XMLOutParameter` to read the
+# value as `xml`.
+public distinct class XmlOutParameter {
+    *sql:OutParameter;
+
+    # Parses the returned XML document to a Ballerina value.
+    #
+    # + typeDesc - The `typedesc` of the type to which the result needs to be returned
+    # + return - The result in the `typeDesc` type, or an `sql:Error`
+    public isolated function get(typedesc<anydata> typeDesc = <>) returns typeDesc|sql:Error = @java:Method {
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.OutParameterProcessorUtils",
+        name: "getOutParameterValue"
+    } external;
+}
+
+# Represents a `BLOB` OUT parameter of a stored procedure. Use it instead of `sql:BlobOutParameter`, which
+# cannot read the bytes returned by the Db2 driver.
+public distinct class BlobOutParameter {
+    *sql:OutParameter;
+
+    # Parses the returned binary value to a Ballerina value.
+    #
+    # + typeDesc - The `typedesc` of the type to which the result needs to be returned
+    # + return - The result in the `typeDesc` type, or an `sql:Error`
+    public isolated function get(typedesc<anydata> typeDesc = <>) returns typeDesc|sql:Error = @java:Method {
+        'class: "io.ballerina.lib.ibm.db2.nativeimpl.OutParameterProcessorUtils",
+        name: "getOutParameterValue"
+    } external;
 }

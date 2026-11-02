@@ -140,26 +140,74 @@ db2:Options options = {
 | `REAL`, `DOUBLE` | `float` |
 | `CHAR`, `VARCHAR`, `CLOB`, `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` | `string` |
 | `BINARY`, `VARBINARY`, `BLOB`, `CHAR`/`VARCHAR FOR BIT DATA` | `byte[]` |
-| `DATE` | `time:Date` |
-| `TIME` | `time:TimeOfDay` |
-| `TIMESTAMP(p)` | `time:Civil` (nanosecond precision; picoseconds are truncated) |
-| `BOOLEAN` | `boolean` |
+| `DATE` | `time:Date` or `string` |
+| `TIME` | `time:TimeOfDay` or `string` |
+| `TIMESTAMP(p)` | `time:Civil`, `time:Utc`, `string` or `int` (nanosecond precision; picoseconds are truncated) |
+| `BOOLEAN` | `boolean` (`int` and `string` are accepted too) |
 | `XML` | `xml` |
 
-`DECFLOAT` can hold `Infinity` and `NaN`, which a Ballerina `decimal` cannot represent. Mapping such a value to a `decimal` field returns an error that says so; map the column to `float` or `string` if it can hold these values.
+Every `sql:*Value` typed parameter of the `ballerina/sql` module is supported except the array values. The following rules come from Db2 and its driver:
+
+- **Nulls.** A `()` or a typed null such as `new sql:DecimalValue()` can be bound to a column of any type.
+- **Instants.** Db2 has no time zone types. A `time:Utc` value, and a `time:Civil` value with a `utcOffset`, are stored as the UTC wall clock time with their full precision. A `TIMESTAMP` column read as `time:Utc` or `int` (epoch milliseconds) is interpreted as UTC, so these values round-trip. A `time:TimeOfDay` with a `utcOffset` is rejected because `TIME` has no zone.
+- **Fractions of a second.** `TIME` has no fractional seconds: the fraction of a `time:TimeOfDay` is dropped and a string such as `"10:11:12.5"` fails with `SQL0180N`. `TIMESTAMP(12)` keeps the nine digits a `time:Civil` can hold.
+- **`NaN` and `Infinity`.** A `float` that is not finite cannot be bound: `DOUBLE` and `REAL` have no such values, and the driver cannot bind them for `DECFLOAT`. The connector rejects them with a clear error; use the SQL literal `DECFLOAT('NaN')` instead. Reading such a `DECFLOAT` value into a `decimal` field is an error; use `float` or `string`.
+- **Numeric conversions.** An `int` or `float` bound to a `DECIMAL` column and a `decimal` bound to a `DOUBLE` column are converted by the server. A `decimal` bound to an `INTEGER` column is truncated by the driver (`12.7` becomes `12`). A value too large for the column fails: `SQL0302N` (SQLSTATE `22001`/`22003`) from the server, or `-4461` from the driver for an `int` outside `SMALLINT` or `INTEGER`.
+- **Lengths are in bytes.** `CHAR`, `VARCHAR` and `CLOB` lengths count UTF-8 bytes, so `VARCHAR(50)` holds 12 emoji (48 bytes) but not 13. `GRAPHIC`, `VARGRAPHIC` and `DBCLOB` lengths count UTF-16 code units (an emoji needs two). `LENGTH()` returns bytes; use `CHARACTER_LENGTH(x, CODEUNITS32)` for characters.
+- **Arrays.** The driver cannot bind arrays, so `int[]`, `string[]` and the `sql:*ArrayValue` types are rejected. Pass the elements as separate parameters: `WHERE ID IN (${a}, ${b})`.
+- **`CHAR` and `GRAPHIC`** values come back blank padded to the column length.
 
 ### Parameter markers need a type
 
-Db2 has to know the type of every parameter marker. A parameter whose type cannot be derived from the statement fails with `SQL0418N` (SQLSTATE `42610`), so add a cast:
+Db2 has to know the type of every parameter marker. A parameter whose type cannot be derived from the statement fails with `SQL0418N` (SQLSTATE `42610`), and a parameter passed to an overloaded function such as `LENGTH(?)` fails with `SQL0245N`, so add a cast:
 
 ```ballerina
 // Fails: SELECT ? FROM SYSIBM.SYSDUMMY1
 int value = check dbClient->queryRow(`SELECT CAST(${5} AS INT) FROM SYSIBM.SYSDUMMY1`);
 ```
 
+### Stored procedures
+
+`call` supports `IN`, `OUT` and `INOUT` parameters and any number of result sets. Read the OUT parameters before closing the `sql:ProcedureCallResult`, because the values live in the statement.
+
+Use the OUT parameter classes of this module for binary and XML values. The `ballerina/sql` classes convert their values in a way the Db2 driver does not support, and the connector rejects them with a message that names the replacement:
+
+| Db2 parameter type | OUT parameter class |
+|---|---|
+| `BINARY`, `CHAR FOR BIT DATA` | `db2:BinaryOutParameter` |
+| `VARBINARY`, `VARCHAR FOR BIT DATA` | `db2:VarBinaryOutParameter` |
+| `BLOB` | `db2:BlobOutParameter` |
+| `XML` | `db2:XmlOutParameter` (read as `xml` or `string`) |
+| `DECFLOAT` | `sql:DecimalOutParameter`; `sql:DoubleOutParameter` or `sql:VarcharOutParameter` for `NaN` and `Infinity` |
+| `GRAPHIC`, `VARGRAPHIC`, `DBCLOB` | `sql:NCharOutParameter`, `sql:NVarcharOutParameter`, `sql:NClobOutParameter` |
+| every other type | the matching `sql:*OutParameter` |
+
+```ballerina
+db2:BlobOutParameter image = new;
+sql:ProcedureCallResult result = check dbClient->call(`CALL GET_IMAGE(${id}, ${image})`);
+byte[] bytes = check image.get();
+check result.close();
+```
+
+An `INOUT` parameter takes its SQL type from the value passed in. A `()` has no type, so the parameter is registered as `VARCHAR` and its value comes back as a `string`; pass a typed null such as `new sql:DecimalValue()` to keep the type. An `xml` value passed to an `INOUT` parameter also comes back as a string. A `NULL` returned through an `sql:BooleanOutParameter` cannot be read, because `get` requires a `boolean`, `int` or `string`.
+
+Db2 procedures are called with `CALL` or the JDBC escape `{CALL ...}`. Functions cannot be called with `CALL`; use `VALUES MYFUNC(${x})` or `SELECT` instead.
+
 ### Batch operations
 
-All statements in a `batchExecute` call must have the same SQL text. Bind values with the same type as the column (for example a `decimal` for a `DECIMAL` column): mixing an `int` value into a `DECIMAL` column makes the driver convert every row and made batches about 40% slower in our tests.
+All statements in a `batchExecute` call must have the same SQL text, so pass every changing value as a parameter, including identifiers such as `${id}` rather than a literal `1`. The statements are sent in chunks of 1,000, and a batch can run inside a `transaction` block.
+
+Bind values with the same type as the column (for example a `decimal` for a `DECIMAL` column): mixing an `int` value into a `DECIMAL` column makes the driver convert every row and made batches about 40% slower in our tests.
+
+Db2 keeps executing after a failed statement. The `sql:BatchExecuteError` carries an `affectedRowCount` of `-3` for each failed statement and the driver's batch failure code `-4229`; the rows that succeeded stay applied unless the batch runs in a transaction. The driver does not report the generated keys of a batch, so `lastInsertId` is `()` for batched inserts; a single `execute` does return the identity value.
+
+### Special characters
+
+Pass every value as a parameter. Quotes, backslashes, newlines, `NUL` characters, `%`, `_`, comments, semicolons and SQL keywords in a parameter are stored as data and never change the statement. `%` and `_` keep their meaning in `LIKE`, so escape them: `V LIKE ${"100\\%"} ESCAPE '\'`. Question marks, braces and colons inside string literals of the SQL text are passed through unchanged.
+
+Identifiers are folded to upper case unless quoted. A quoted identifier with spaces, a keyword or non-ASCII letters is returned under that exact name, so a record field for it needs a quoted identifier too: `record {| int 'my\ id; string 'select; |}`.
+
+Db2 accepts one statement per call. A second statement after a `;` fails with `SQL0104N`.
 
 ### Concurrency and virtual threads
 
