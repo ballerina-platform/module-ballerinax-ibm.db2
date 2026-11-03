@@ -78,7 +78,7 @@ public enum SecurityMechanism {
 
 # Represents a `BINARY` or `CHAR FOR BIT DATA` OUT parameter of a stored procedure. Use it instead of
 # `sql:BinaryOutParameter`, which cannot read the bytes returned by the Db2 driver.
-public distinct class BinaryOutParameter {
+public isolated distinct class BinaryOutParameter {
     *sql:OutParameter;
 
     # Parses the returned binary value to a Ballerina value.
@@ -93,7 +93,7 @@ public distinct class BinaryOutParameter {
 
 # Represents a `VARBINARY` or `VARCHAR FOR BIT DATA` OUT parameter of a stored procedure. Use it instead of
 # `sql:VarBinaryOutParameter`, which cannot read the bytes returned by the Db2 driver.
-public distinct class VarBinaryOutParameter {
+public isolated distinct class VarBinaryOutParameter {
     *sql:OutParameter;
 
     # Parses the returned binary value to a Ballerina value.
@@ -108,7 +108,7 @@ public distinct class VarBinaryOutParameter {
 
 # Represents an `XML` OUT parameter of a stored procedure. Use it instead of `sql:XMLOutParameter` to read the
 # value as `xml`.
-public distinct class XmlOutParameter {
+public isolated distinct class XmlOutParameter {
     *sql:OutParameter;
 
     # Parses the returned XML document to a Ballerina value.
@@ -123,7 +123,7 @@ public distinct class XmlOutParameter {
 
 # Represents a `BLOB` OUT parameter of a stored procedure. Use it instead of `sql:BlobOutParameter`, which
 # cannot read the bytes returned by the Db2 driver.
-public distinct class BlobOutParameter {
+public isolated distinct class BlobOutParameter {
     *sql:OutParameter;
 
     # Parses the returned binary value to a Ballerina value.

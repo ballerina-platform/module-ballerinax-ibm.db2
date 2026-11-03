@@ -21,7 +21,7 @@ import ballerina/test;
 configurable string host = "localhost";
 configurable int port = 50000;
 configurable string user = "db2inst1";
-configurable string password = "Test123#";
+configurable string password = ?;
 configurable string database = "TESTDB";
 
 const SCHEMA = "BALTEST";
