@@ -1,0 +1,58 @@
+{
+  "bundles": [
+    {
+      "name": "com.ibm.db2.jcc.resources.Resources",
+      "locales": [
+        "",
+        "en",
+        "en-US"
+      ],
+      "classNames": [
+        "com.ibm.db2.jcc.resources.Resources",
+        "com.ibm.db2.jcc.resources.Resources_en_US"
+      ]
+    },
+    {
+      "name": "com.ibm.db2.jcc.resources.T4Resources",
+      "locales": [
+        "",
+        "en",
+        "en-US"
+      ],
+      "classNames": [
+        "com.ibm.db2.jcc.resources.T4Resources",
+        "com.ibm.db2.jcc.resources.T4Resources_en_US"
+      ]
+    },
+    {
+      "name": "com.ibm.db2.jcc.resources.SqljResources",
+      "locales": [
+        "",
+        "en",
+        "en-US"
+      ],
+      "classNames": [
+        "com.ibm.db2.jcc.resources.SqljResources"
+      ]
+    },
+    {
+      "name": "com.ibm.db2.jcc.t2zos.ac",
+      "locales": [
+        "",
+        "en",
+        "en-US"
+      ],
+      "classNames": [
+        "com.ibm.db2.jcc.t2zos.ac"
+      ]
+    },
+    {
+      "name": "com.ibm.db2.cmx.runtime.internal.resources.messages",
+      "locales": [
+        "",
+        "en",
+        "en-US"
+      ]
+    }
+  ]
+}
