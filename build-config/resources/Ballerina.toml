@@ -1,0 +1,35 @@
+[package]
+org = "ballerinax"
+name = "ibm.db2"
+version = "@toml.version@"
+authors = ["Ballerina"]
+keywords = ["Client", "Network", "SQL", "RDBMS", "Db2", "DB2", "IBM", "Name/IBM Db2", "Vendor/IBM", "Area/Database", "Type/Connector"]
+repository = "https://github.com/ballerina-platform/module-ballerinax-ibm.db2"
+icon = "icon.png"
+license = ["Apache-2.0"]
+distribution = "2201.13.0"
+include = ["metadata/**"]
+
+[platform.java21]
+graalvmCompatible = true
+
+[[platform.java21.dependency]]
+groupId = "io.ballerina.lib"
+artifactId = "ibm.db2-native"
+version = "@toml.version@"
+path = "../native/build/libs/ibm.db2-native-@project.version@.jar"
+
+[[platform.java21.dependency]]
+groupId = "io.ballerina.stdlib"
+artifactId = "sql-native"
+version = "@sql.version@"
+path = "./lib/sql-native-@sql.native.version@.jar"
+
+# The IBM JCC driver is not bundled with the package. Applications add it as a platform dependency of their own
+# (see the README), so it is `provided` here and used only by the test runs.
+[[platform.java21.dependency]]
+groupId = "com.ibm.db2"
+artifactId = "jcc"
+version = "@db2.jcc.version@"
+path = "./lib/jcc-@db2.jcc.version@.jar"
+scope = "provided"

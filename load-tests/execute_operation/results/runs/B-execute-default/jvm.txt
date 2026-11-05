@@ -1,0 +1,5 @@
+openjdk version "21.0.12.1" 2026-08-18 LTS
+1
+      int ActiveProcessorCount                     = -1                                        {product} {default}
+   size_t MaxHeapSize                              = 134217728                                 {product} {ergonomic}
+service: execute_operation users: 60 duration: 600 extra: 

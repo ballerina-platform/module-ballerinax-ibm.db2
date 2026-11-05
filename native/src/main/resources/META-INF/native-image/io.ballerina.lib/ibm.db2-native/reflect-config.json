@@ -1,0 +1,152 @@
+[
+  {
+    "name": "io.ballerina.lib.ibm.db2.datasource.Db2XADataSource",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.DB2XADataSource",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.DB2BaseDataSource",
+    "allPublicMethods": true,
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.DB2SimpleDataSource",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.DB2ConnectionPoolDataSource",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.DB2Driver",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "com.ibm.pdq.runtime.internal.wrappers.db2.ConnectionProxyHandler",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.resources.Resources",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.resources.Resources_en_US",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.resources.T4Resources",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.resources.T4Resources_en_US",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.resources.SqljResources",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.t2zos.ac",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConPE",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvAAS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvAIS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvAS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvAZS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvDb2",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvEE",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvIS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvO",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvTL",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.ConsvZS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2SQLDS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2SQLDSTrial",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2UW",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2UWTrial",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2iSeries",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2iSeriesTrial",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2zOS",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "com.ibm.db2.jcc.licenses.DB2zOSTrial",
+    "allDeclaredConstructors": true
+  }
+]

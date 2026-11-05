@@ -1,0 +1,331 @@
+driver 4.38.7 server SQL120120
+
+##### RESULT SET METADATA  (column | Types code | type name | java class | precision/scale)
+ID                 4 INTEGER            java.lang.Integer                10/0  -> Integer:'1'
+C_SMALLINT         5 SMALLINT           java.lang.Integer                5/0  -> Integer:'1'
+C_INT              4 INTEGER            java.lang.Integer                10/0  -> Integer:'2'
+C_BIGINT          -5 BIGINT             java.lang.Long                   19/0  -> Long:'9223372036854775807'
+C_DECIMAL          3 DECIMAL            java.math.BigDecimal             10/2  -> BigDecimal:'12345678.91'
+C_NUMERIC          3 DECIMAL            java.math.BigDecimal             8/3  -> BigDecimal:'12345.678'
+C_REAL             7 REAL               java.lang.Float                  7/0  -> Float:'1.25'
+C_DOUBLE           8 DOUBLE             java.lang.Double                 15/0  -> Double:'2.5'
+C_DECFLOAT16    1111 DECFLOAT           java.math.BigDecimal             16/0  -> BigDecimal:'123.456'
+C_DECFLOAT34    1111 DECFLOAT           java.math.BigDecimal             34/0  -> BigDecimal:'1234567890.123456789012345678901234'
+C_CHAR             1 CHAR               java.lang.String                 10/0  -> String:'abc       '
+C_VARCHAR         12 VARCHAR            java.lang.String                 50/0  -> String:'hello db2'
+C_CLOB          2005 CLOB               java.sql.Clob                    1048576/0  -> NClob:'clob text' len=9
+C_GRAPHIC        -15 GRAPHIC            java.lang.String                 5/0  -> String:'ｱｲｳ  '
+C_VARGRAPHIC      -9 VARGRAPHIC         java.lang.String                 20/0  -> String:'日本語テキスト'
+C_DBCLOB        2011 DBCLOB             java.sql.Clob                    1048576/0  -> NClob:'dbclob 日本' len=9
+C_BINARY          -2 BINARY             byte[]                           4/0  -> 0x01020304(4B)
+C_VARBINARY       -3 VARBINARY          byte[]                           16/0  -> 0x0A0B(2B)
+C_BLOB          2004 BLOB               java.sql.Blob                    1048576/0  -> Blob:0xFFEE(2B) len=2
+C_CHAR_BIT        -2 CHAR FOR BIT DATA  byte[]                           4/0  -> 0xDEADBEEF(4B)
+C_DATE            91 DATE               java.sql.Date                    10/0  -> Date:'2026-10-29'
+C_TIME            92 TIME               java.sql.Time                    8/0  -> Time:'13:14:15'
+C_TIMESTAMP       93 TIMESTAMP          java.sql.Timestamp               26/6  -> Timestamp:'2026-10-29 13:14:15.123456'
+C_TIMESTAMP12     93 TIMESTAMP          java.sql.Timestamp               32/12  -> Timestamp:'2026-10-29 13:14:15.123456789'
+C_BOOLEAN         16 BOOLEAN            java.lang.Boolean                2/0  -> Boolean:'true'
+C_XML           2009 XML                com.ibm.db2.jcc.DB2Xml           0/0  -> SQLXML:'<employee><name>Ann</name></employee>'
+
+##### PARAMETER METADATA of INSERT INTO PROBE.DATA_TYPES (all columns)
+ID                 4 INTEGER            java.lang.Integer
+C_SMALLINT         5 SMALLINT           java.lang.Integer
+C_INT              4 INTEGER            java.lang.Integer
+C_BIGINT          -5 BIGINT             java.lang.Long
+C_DECIMAL          3 DECIMAL            java.math.BigDecimal
+C_NUMERIC          3 DECIMAL            java.math.BigDecimal
+C_REAL             7 REAL               java.lang.Float
+C_DOUBLE           8 DOUBLE             java.lang.Double
+C_DECFLOAT16    1111 DECFLOAT           java.math.BigDecimal
+C_DECFLOAT34    1111 DECFLOAT           java.math.BigDecimal
+C_CHAR             1 CHAR               java.lang.String
+C_VARCHAR         12 VARCHAR            java.lang.String
+C_CLOB          2005 CLOB               java.sql.Clob
+C_GRAPHIC        -15 GRAPHIC            java.lang.String
+C_VARGRAPHIC      -9 VARGRAPHIC         java.lang.String
+C_DBCLOB        2011 DBCLOB             java.sql.Clob
+C_BINARY          -2 BINARY             byte[]
+C_VARBINARY       -3 VARBINARY          byte[]
+C_BLOB          2004 BLOB               java.sql.Blob
+C_CHAR_BIT        -2 CHAR FOR BIT DATA  byte[]
+C_DATE            91 DATE               java.sql.Date
+C_TIME            92 TIME               java.sql.Time
+C_TIMESTAMP       93 TIMESTAMP          java.sql.Timestamp
+C_TIMESTAMP12     93 TIMESTAMP          java.sql.Timestamp
+C_BOOLEAN         16 BOOLEAN            java.lang.Boolean
+C_XML           2009 XML                com.ibm.db2.jcc.DB2Xml
+
+##### NULL BINDING: setNull(i, Types.VARCHAR) into every column (what the connector does)
+OK  all 25 columns accepted the null
+
+##### NULL BINDING: setNull(i, Types.NULL) (sql module default)
+FAIL null -4228 [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_SMALLINT: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_INT: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_BIGINT: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_DECIMAL: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_NUMERIC: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_REAL: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_DOUBLE: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_DECFLOAT16: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_DECFLOAT34: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_CHAR: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_VARCHAR: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_CLOB: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_GRAPHIC: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_VARGRAPHIC: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_DBCLOB: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_BINARY: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_VARBINARY: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_BLOB: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_CHAR_BIT: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_DATE: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_TIME: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_TIMESTAMP: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_TIMESTAMP12: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_BOOLEAN: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+   C_XML: null [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 0. ERRORCODE=-4228, SQLSTATE=null
+
+##### NULL BINDING: setObject(i, null)
+OK  all 25 columns accepted the null
+
+##### BINDING EXPERIMENTS (one column each)
+FAIL  C_TIMESTAMP   setObject(OffsetDateTime, TIMESTAMP_WITH_TIMEZONE)   -> 42815 -4461 [jcc][1091][10417][4.38.7] Invalid data conversion: Parameter instance 2024-02-29T10:11:12.500+05:00 is invalid for the requested conversion. ERRORCODE=-4461, SQLSTATE=42815
+FAIL  C_TIMESTAMP   setObject(OffsetDateTime) no type                    -> 42815 -4461 [jcc][t4][1091][14266][4.38.7] Invalid data conversion: Parameter instance 2024-02-29T10:11:12.500+05:00 is invalid for the requested conversion. ERRORCODE=-4461, SQLSTATE=42815
+FAIL  C_TIME        setObject(OffsetTime, TIME_WITH_TIMEZONE)            -> null -4228 [jcc][10271][10296][4.38.7] Unrecognized JDBC type: 2013. ERRORCODE=-4228, SQLSTATE=null
+OK    C_TIMESTAMP   setString("2024-02-29 10:11:12.5") JDBC format       -> Timestamp:'2024-02-29 10:11:12.5'
+OK    C_TIMESTAMP   setString("2024-02-29-10.11.12.500000") Db2 format   -> Timestamp:'2024-02-29 10:11:12.5'
+OK    C_TIMESTAMP   setString("2024-02-29T10:11:12.5") ISO               -> Timestamp:'2024-02-29 10:11:12.5'
+OK    C_TIMESTAMP12 setTimestamp nanos 123456789                         -> Timestamp:'2024-02-29 10:11:12.123456789'
+OK    C_TIME        setString("10:11:12")                                -> Time:'10:11:12'
+OK    C_TIME        setString("10.11.12")                                -> Time:'10:11:12'
+FAIL  C_TIME        setString("10:11:12.5") fractional                   -> 22007 -180 The syntax of the string representation of a datetime value is incorrect.. SQLCODE=-180, SQLSTATE=22007, DRIVER=4.38.7
+OK    C_TIME        setTime(Time.valueOf(LocalTime 23:59:59))            -> Time:'23:59:59'
+OK    C_DATE        setString("2024-2-9")                                -> Date:'2024-02-09'
+OK    C_DATE        setDate(Date.valueOf("2024-2-9"))                    -> Date:'2024-02-09'
+OK    C_BOOLEAN     setBoolean(true)                                     -> Boolean:'true'
+OK    C_BOOLEAN     setInt(1)                                            -> Boolean:'true'
+OK    C_BOOLEAN     setString("true")                                    -> Boolean:'true'
+OK    C_SMALLINT    setBoolean(true)                                     -> Integer:'1'
+FAIL  C_SMALLINT    setLong(40000) overflow                              -> 42815 -4461 [jcc][10177][11587][4.38.7] Invalid data conversion: Requested conversion would result in a loss of precision of 40000. ERRORCODE=-4461, SQLSTATE=42815
+FAIL  C_INT         setLong(3000000000) overflow                         -> 42815 -4461 [jcc][10177][11588][4.38.7] Invalid data conversion: Requested conversion would result in a loss of precision of 3000000000. ERRORCODE=-4461, SQLSTATE=42815
+OK    C_INT         setBigDecimal(12.7)                                  -> Integer:'12'
+OK    C_INT         setDouble(12.7)                                      -> Integer:'12'
+OK    C_INT         setString("42")                                      -> Integer:'42'
+OK    C_DECIMAL     setBigDecimal(123.456) scale 3 > col scale 2         -> BigDecimal:'123.46'
+FAIL  C_DECIMAL     setBigDecimal(123456789.12) precision overflow       -> 22003 -4220 [jcc][t4][1037][11190][4.38.7] Exception occurred during BigDecimal conversion.  See attached Throwable for details. ERRORCODE=-4220, SQLSTATE=22003
+OK    C_DECIMAL     setDouble(0.1)                                       -> BigDecimal:'0.10'
+OK    C_DECIMAL     setLong(42)                                          -> BigDecimal:'42.00'
+OK    C_DECFLOAT34  setBigDecimal(1E+400)                                -> BigDecimal:'1.000000000000000000000000000000000E+400'
+CRASH C_DECFLOAT34  setDouble(NaN)                                       -> java.lang.NumberFormatException: Character N is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+CRASH C_DECFLOAT34  setDouble(Infinity)                                  -> java.lang.NumberFormatException: Character I is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+FAIL  C_DECFLOAT34  setString("NaN")                                     -> null -4231 [jcc][t4][6011][10987][4.38.7] An error occurred during the conversion of column 1 of type DECFLOAT(34) with a NaN value to a value of type java.math.BigDecimal. ERRORCODE=-4231, SQLSTATE=null
+OK    C_DECFLOAT16  setBigDecimal(1234567890.123456789) > 16 digits      -> BigDecimal:'1234567890.123457'
+OK    C_REAL        setDouble(0.1)                                       -> Float:'0.1'
+OK    C_REAL        setFloat(0.1f)                                       -> Float:'0.1'
+CRASH C_DOUBLE      setDouble(NaN)                                       -> java.lang.NumberFormatException: Character N is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+FAIL  C_DOUBLE      setDouble(Infinity)                                  -> 42815 -4461 [jcc][10177][11598][4.38.7] Invalid data conversion: Requested conversion would result in a loss of precision of Infinity. ERRORCODE=-4461, SQLSTATE=42815
+FAIL  C_DOUBLE      setBigDecimal(1E-310) denormal                       -> 22003 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22003, DRIVER=4.38.7
+OK    C_CHAR        setString("abc") padded                              -> String:'abc       '
+FAIL  C_CHAR        setString(11 chars) overflow                         -> 22001 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+OK    C_VARCHAR     setString with quote/backslash/newline/tab           -> String:'O'Reilly \ "q" \n\t end'
+OK    C_VARCHAR     setString("caf\u00e9 \u65e5\u672c") 2+3 byte UTF-8   -> String:'café 日本'
+OK    C_VARCHAR     setString(emoji x12 = 48 bytes)                      -> String:'😀😀😀😀😀😀😀😀😀😀😀😀'
+FAIL  C_VARCHAR     setString(emoji x13 = 52 bytes > 50)                 -> 22001 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+OK    C_VARCHAR     setString("a\u0000b") NUL                            -> String:'a\0b'
+OK    C_VARCHAR     setString("100%_") wildcards                         -> String:'100%_'
+OK    C_VARCHAR     setString("; DROP TABLE x --")                       -> String:'; DROP TABLE x --'
+OK    C_VARCHAR     setString("") empty                                  -> String:''
+OK    C_VARCHAR     setNString                                           -> String:'nstring ü'
+OK    C_VARCHAR     setObject(Long 42)                                   -> String:'42'
+OK    C_VARCHAR     setCharacterStream(reader)                           -> String:'reader text'
+OK    C_GRAPHIC     setString("abc") 3 of 5 codeunits                    -> String:'abc  '
+OK    C_GRAPHIC     setString("\u65e5\u672c\u8a9e\u30c6\u30ad") 5 chars  -> String:'日本語テキ'
+OK    C_GRAPHIC     setString(emoji x2 = 4 UTF-16 units)                 -> String:'😀😀 '
+FAIL  C_GRAPHIC     setString(emoji x3 = 6 UTF-16 units)                 -> 22001 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+OK    C_VARGRAPHIC  setNString("ü")                                      -> String:'ü'
+OK    C_VARGRAPHIC  setString with quotes                                -> String:'O'Reilly "q"'
+OK    C_DBCLOB      setNClob via setNString                              -> NClob:'dbclob text 日本' len=14
+OK    C_DBCLOB      setString                                            -> NClob:'dbclob via setString' len=20
+OK    C_DBCLOB      setClob(createClob)                                  -> NClob:'clob obj' len=8
+FAIL  C_DBCLOB      setNClob(createNClob)                                -> 0A504 -4450 [jcc][t4][10181][12051][4.38.7] Method createNClob is not supported. ERRORCODE=-4450, SQLSTATE=0A504
+FAIL  C_CLOB        setNClob(createNClob) into CLOB                      -> 0A504 -4450 [jcc][t4][10181][12051][4.38.7] Method createNClob is not supported. ERRORCODE=-4450, SQLSTATE=0A504
+OK    C_CLOB        setClob(createClob)                                  -> NClob:'clob into clob' len=14
+OK    C_CLOB        setString(1 MiB)                                     -> NClob:'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' len=1048576
+FAIL  C_CLOB        setString(1 MiB + 1) overflow                        -> 22001 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+OK    C_BINARY      setBytes(3 bytes into BINARY(4))                     -> 0x01020300(4B)
+FAIL  C_BINARY      setBytes(5 bytes into BINARY(4))                     -> 22001 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+OK    C_BINARY      setBlob(createBlob)                                  -> 0x09090000(4B)
+OK    C_VARBINARY   setBytes                                             -> 0x00FF7F(3B)
+OK    C_VARBINARY   setBinaryStream                                      -> 0x0102(2B)
+FAIL  C_VARBINARY   setString("0A0B") hex string                         -> null -4474 [jcc][1083][10403][4.38.7] Illegal conversion: can not convert from "java.lang.String" to "byte[]" ERRORCODE=-4474, SQLSTATE=null
+OK    C_BLOB        setBytes                                             -> Blob:0x010203(3B) len=3
+OK    C_BLOB        setBlob(createBlob)                                  -> Blob:0x0909(2B) len=2
+OK    C_BLOB        setBinaryStream(1 MiB)                               -> Blob:0x00000000000000000000000000000000(16B) len=1048576
+OK    C_BLOB        setBytes(empty)                                      -> Blob:0x(0B) len=0
+OK    C_CHAR_BIT    setBytes(4) into CHAR(4) FOR BIT DATA                -> 0x01020304(4B)
+OK    C_CHAR_BIT    setString("abcd")                                    -> 0x61626364(4B)
+OK    C_XML         setSQLXML                                            -> SQLXML:'<a b="1">t</a>'
+OK    C_XML         setString("<a/>")                                    -> SQLXML:'<a/>'
+FAIL  C_XML         setSQLXML text node only                             -> 2200M -16132 XML document contains an invalid document structure.. SQLCODE=-16132, SQLSTATE=2200M, DRIVER=4.38.7
+OK    C_XML         setSQLXML with XML decl + namespace                  -> SQLXML:'<p:a xmlns:p="urn:p"><p:b>é</p:b></p:a>'
+FAIL  C_XML         setSQLXML sequence of 2 roots                        -> 2200M -16110 XML syntax error. Expected to find "Comment or PI".. SQLCODE=-16110, SQLSTATE=2200M, DRIVER=4.38.7
+FAIL  C_XML         setSQLXML empty                                      -> 2200M -16132 XML document contains an invalid document structure.. SQLCODE=-16132, SQLSTATE=2200M, DRIVER=4.38.7
+
+##### UNTYPED PARAMETER MARKERS
+FAIL  SELECT ? FROM SYSIBM.SYSDUMMY1                                              -> 42610 -418 The statement was not processed because the statement contains an invalid use of one of the following: an untyped parameter marker, the DEFAULT keyword, or a null value.. SQLCODE=-418, SQLSTATE=42610, DRIVER=4.38.7
+OK    SELECT ? + 1 FROM SYSIBM.SYSDUMMY1                                          -> col1 INTEGER(4) [Integer:'42'] 
+OK    SELECT CASE WHEN ? THEN 1 ELSE 0 END FROM SYSIBM.SYSDUMMY1                  -> col1 INTEGER(4) [Integer:'1'] 
+OK    SELECT * FROM PROBE.EMPLOYEE WHERE NAME LIKE ?                              -> col1 INTEGER(4) [Integer:'1', String:'Ann', String:'ENG', BigDecimal:'9500.00', Date:'2020-01-15', Boolean:'true'] 
+OK    SELECT * FROM PROBE.EMPLOYEE WHERE NAME LIKE ? ESCAPE '\'                   -> col1 INTEGER(4) 
+OK    SELECT * FROM PROBE.EMPLOYEE WHERE NAME IN (?, ?)                           -> col1 INTEGER(4) [Integer:'1', String:'Ann', String:'ENG', BigDecimal:'9500.00', Date:'2020-01-15', Boolean:'true'] [Integer:'2', String:'Bob', String:'ENG', BigDecimal:'8200.50', Date:'2021-06-01', Boolean:'true'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE ? IS NULL                         -> col1 INTEGER(4) [Integer:'5'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE SALARY > ?                        -> col1 INTEGER(4) [Integer:'3'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE SALARY > ?                        -> col1 INTEGER(4) [Integer:'3'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE HIRED > ?                         -> col1 INTEGER(4) [Integer:'3'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE ACTIVE = ?                        -> col1 INTEGER(4) [Integer:'4'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE ACTIVE = ?                        -> col1 INTEGER(4) [Integer:'4'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE ID = ?                            -> col1 INTEGER(4) [Integer:'1'] 
+OK    SELECT COUNT(*) FROM PROBE.EMPLOYEE WHERE ID = ?                            -> col1 INTEGER(4) [Integer:'1'] 
+OK    SELECT 'it''s "quoted" \ -- ; /* c */' FROM SYSIBM.SYSDUMMY1                -> col1 VARCHAR(12) [String:'it's "quoted" \ -- ; /* c */'] 
+OK    SELECT "NAME" FROM PROBE."EMPLOYEE" WHERE "ID" = 1                          -> col1 VARCHAR(12) [String:'Ann'] 
+OK    SELECT NAME FROM PROBE.EMPLOYEE WHERE NAME = 'Ann';                         -> col1 VARCHAR(12) [String:'Ann'] 
+FAIL  SELECT NAME FROM PROBE.EMPLOYEE WHERE NAME = 'Ann'; SELECT 1 FROM SYSIBM... -> 42601 -104 An unexpected token "" was found following "".  Expected tokens may include:  "E WHERE NAME = 'Ann'".. SQLCODE=-104, SQLSTATE=42601, DRIVER=4.38.7
+OK    SELECT {fn CONCAT('a','b')} FROM SYSIBM.SYSDUMMY1                           -> col1 VARCHAR(12) [String:'ab'] 
+OK    SELECT '{' || ? || '}' FROM SYSIBM.SYSDUMMY1                                -> col1 VARCHAR(12) [String:'{brace}'] 
+OK    SELECT 'a?b' FROM SYSIBM.SYSDUMMY1                                          -> col1 VARCHAR(12) [String:'a?b'] 
+OK    SELECT 'a:b' FROM SYSIBM.SYSDUMMY1                                          -> col1 VARCHAR(12) [String:'a:b'] 
+OK    SELECT NAME FROM PROBE.EMPLOYEE WHERE NAME = ? -- trailing comment ?        -> col1 VARCHAR(12) [String:'Ann'] 
+OK    SELECT NAME /* ? */ FROM PROBE.EMPLOYEE WHERE NAME = ?                      -> col1 VARCHAR(12) [String:'Ann'] 
+OK    SELECT 'ünïcödé ✓ 😀' FROM SYSIBM.SYSDUMMY1                                 -> col1 VARCHAR(12) [String:'ünïcödé ✓ 😀'] 
+FAIL  SELECT LENGTH(?), CHARACTER_LENGTH(?, CODEUNITS32) FROM SYSIBM.SYSDUMMY1    -> 428F5 -245 The invocation of routine "LENGTH" is ambiguous. The argument in position "1" does not have a best fit.. SQLCODE=-245, SQLSTATE=428F5, DRIVER=4.38.7
+FAIL  SELECT CAST(? AS VARCHAR(5)) FROM SYSIBM.SYSDUMMY1                          -> 22001 -302 The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+FAIL  VALUES DECFLOAT(?)                                                          -> 428F5 -245 The invocation of routine "DECFLOAT" is ambiguous. The argument in position "1" does not have a best fit.. SQLCODE=-245, SQLSTATE=428F5, DRIVER=4.38.7
+FAIL  VALUES DECFLOAT(CAST(? AS VARCHAR(10)))                                     -> null -4231 [jcc][t4][6011][10987][4.38.7] An error occurred during the conversion of column 1 of type DECFLOAT(34) with a NaN value to a value of type java.math.BigDecimal. ERRORCODE=-4231, SQLSTATE=null
+FAIL  VALUES CAST(? AS DECFLOAT(34))                                              -> null -4231 [jcc][t4][6011][10987][4.38.7] An error occurred during the conversion of column 1 of type DECFLOAT(34) with a Infinity value to a value of type java.math.BigDecimal. ERRORCODE=-4231, SQLSTATE=null
+OK    VALUES CAST(? AS DECFLOAT(34))                                              -> col1 DECFLOAT(1111) [BigDecimal:'1.000000000000000000000000000000000E+400'] 
+OK    VALUES CAST(? AS DOUBLE)                                                    -> col1 DOUBLE(8) [Double:'1.0E308'] 
+OK    VALUES CAST(? AS DOUBLE)                                                    -> col1 DOUBLE(8) [Double:'1.2345678901234567E19'] 
+OK    VALUES CAST(? AS TIMESTAMP)                                                 -> col1 TIMESTAMP(93) [Timestamp:'0001-01-01 00:00:00.0'] 
+OK    VALUES CAST(? AS TIMESTAMP)                                                 -> col1 TIMESTAMP(93) [Timestamp:'9999-12-31 23:59:59.999999'] 
+OK    VALUES CAST(? AS DATE)                                                      -> col1 DATE(91) [Date:'0001-01-01'] 
+OK    VALUES CAST(? AS TIME)                                                      -> col1 TIME(92) [Time:'00:00:00'] 
+OK    VALUES CAST(? AS VARCHAR(10) FOR BIT DATA)                                  -> col1 VARCHAR FOR BIT DATA(-3) [0x0102(2B)] 
+OK    VALUES CAST(? AS BIGINT)                                                    -> col1 BIGINT(-5) [Long:'-9223372036854775808'] 
+OK    VALUES CAST(? AS DECIMAL(31,0))                                             -> col1 DECIMAL(3) [BigDecimal:'9999999999999999999999999999999'] 
+OK    VALUES CAST(? AS DECIMAL(31,10))                                            -> col1 DECIMAL(3) [BigDecimal:'123456789012345678901.0123456789'] 
+OK    VALUES CAST(? AS VARCHAR(100))                                              -> col1 VARCHAR(12) [String:'tab\there\nnewlinecr\0nul end'] 
+OK    VALUES CAST(? AS VARGRAPHIC(100))                                           -> col1 VARGRAPHIC(-9) [String:'😀 surrogate pair 日本'] 
+OK    VALUES CAST(? AS CLOB(1K))                                                  -> col1 CLOB(2005) [NClob:'clob via cast' len=13] 
+OK    VALUES XMLSERIALIZE(CAST(? AS XML) AS VARCHAR(100))                         -> col1 VARCHAR(12) [String:'<a>1</a>'] 
+OK    VALUES CAST(? AS BOOLEAN)                                                   -> col1 BOOLEAN(16) [Boolean:'true'] 
+OK    VALUES CAST(? AS BOOLEAN)                                                   -> col1 BOOLEAN(16) [Boolean:'true'] 
+FAIL  VALUES JSON_OBJECT(KEY 'a' VALUE ?)                                         -> 42815 -171 The statement was not processed because the data type, length or value of the argument for the parameter in position "2" of routine "SYSIBM.JSON_OBJECT" is incorrect. Parameter name: "".. SQLCODE=-171, SQLSTATE=42815, DRIVER=4.38.7
+OK    VALUES CAST(? AS VARCHAR(20)) || CAST(? AS VARCHAR(20))                     -> col1 VARCHAR(12) [String:'ab'] 
+OK    SELECT ID FROM PROBE.EMPLOYEE WHERE ID = ? OR ID = ?                        -> col1 INTEGER(4) [Integer:'1'] [Integer:'2'] 
+
+##### STORED PROCEDURE OUT PARAM REGISTRATION
+p1       5 SMALLINT           java.lang.Integer
+p2       4 INTEGER            java.lang.Integer
+p3      -5 BIGINT             java.lang.Long
+p4       3 DECIMAL            java.math.BigDecimal
+p5    1111 DECFLOAT           java.math.BigDecimal
+p6       7 REAL               java.lang.Float
+p7       8 DOUBLE             java.lang.Double
+p8       1 CHAR               java.lang.String
+p9      12 VARCHAR            java.lang.String
+p10   2005 CLOB               java.sql.Clob
+p11    -15 GRAPHIC            java.lang.String
+p12     -9 VARGRAPHIC         java.lang.String
+p13   2011 DBCLOB             java.sql.Clob
+p14     -2 BINARY             byte[]
+p15     -3 VARBINARY          byte[]
+p16   2004 BLOB               java.sql.Blob
+p17     91 DATE               java.sql.Date
+p18     92 TIME               java.sql.Time
+p19     93 TIMESTAMP          java.sql.Timestamp
+p20     93 TIMESTAMP          java.sql.Timestamp
+p21     16 BOOLEAN            java.lang.Boolean
+p22   2009 XML                com.ibm.db2.jcc.DB2Xml
+out p1   getObject -> Integer:'1'
+out p2   getObject -> Integer:'2'
+out p3   getObject -> Long:'3'
+out p4   getObject -> BigDecimal:'4.50'
+out p5   getObject -> BigDecimal:'6.75'
+out p6   getObject -> Float:'1.25'
+out p7   getObject -> Double:'2.5'
+out p8   getObject -> String:'ab   '
+out p9   getObject -> String:'vc'
+out p10  getObject -> NClob:'clob' len=4
+out p11  getObject -> String:'日本語'
+out p12  getObject -> String:'vg'
+out p13  getObject -> NClob:'dbc' len=3
+out p14  getObject -> 0x01020304(4B)
+out p15  getObject -> 0x0A0B(2B)
+out p16  getObject -> Blob:0xFFEE(2B) len=2
+out p17  getObject -> Date:'2024-02-29'
+out p18  getObject -> Time:'10:11:12'
+out p19  getObject -> Timestamp:'2024-02-29 10:11:12.123456'
+out p20  getObject -> Timestamp:'2024-02-29 10:11:12.123456'
+out p21 getObject FAILED: [jcc][t4][1092][11645][4.38.7] Invalid data conversion: Wrong result column type for requested conversion. ERRORCODE=-4461, SQLSTATE=42815
+out p22  getObject -> SQLXML:'<a>1</a>'
+DECFLOAT out registered as 3 -> BigDecimal:'6.75' / getBigDecimal 6.75
+DECFLOAT out registered as 2 -> BigDecimal:'6.75' / getBigDecimal 6.75
+DECFLOAT out registered as 8 -> Double:'6.75' / getBigDecimal 6.75
+DECFLOAT out registered as 12 -> String:'6.75' / getBigDecimal 6.75
+DECFLOAT out registered as 1111 FAILED: [jcc][10271][10295][4.38.7] Unrecognized JDBC type: 1111. ERRORCODE=-4228, SQLSTATE=null
+XML out registered as 12 -> String:'<a>1</a>' / getString <a>1</a>
+XML out registered as 2005 -> SQLXML:'<a>1</a>' / getString <a>1</a>
+XML out registered as -1 -> String:'<a>1</a>' / getString <a>1</a>
+alt registration FAILED: [jcc][t4][1092][11645][4.38.7] Invalid data conversion: Wrong result column type for requested conversion. ERRORCODE=-4461, SQLSTATE=42815
+
+##### INOUT parameter with NULL in, and typed-null IN params to a procedure
+INOUT nulls FAILED: [jcc][10252][10294][4.38.7] The jdbcType -100001 does not match between the set method and the registerOutParameter method. ERRORCODE=-4220, SQLSTATE=null
+values in -> O'Reilly "x"!, 2.50, 2024-02-29 10:11:12.123456, SQLXML:'<a/>'
+
+##### PROCEDURE: result set + update count + out param ordering; getMoreResults behaviour
+execute() -> true updateCount=-1 out(before reading rs)=1
+ result 1 rows=3
+ getMoreResults -> true updateCount=-1
+ result 2 rows=1
+ getMoreResults -> false updateCount=-1
+out after=1
+
+##### FUNCTION call via CALL / VALUES; procedure with no params; schema-qualified with quotes
+OK    VALUES PROBE.ADD1(?)                                                        -> col1 INTEGER(4) [Integer:'42'] 
+OK    SELECT PROBE.ADD1(41) FROM SYSIBM.SYSDUMMY1                                 -> col1 INTEGER(4) [Integer:'42'] 
+{? = CALL fn} FAILED: No authorized routine named "PROBE.ADD1" of type "PROCEDURE" having compatible arguments was found.. SQLCODE=-440, SQLSTATE=42884, DRIVER=4.38.7
+{CALL ...} escape prepared ok
+quoted CALL prepared ok
+
+##### BATCH: mixed types, nulls, errors, generated keys
+BatchUpdateException counts=[1, 1, 1, -3, 1, -3] msg=[jcc][t4][102][10040][4.38.7] Batch failure.  The batch was submitted, but at least one exception occurred on an individual member of the batch.
+  next: 23505 -803 Error for batch element #4: An error or warning occurred.  One or more values in the INSERT statement, UPDATE statement, or foreign key update caused by a DELETE statement are not valid because the primary key, unique constraint or unique index identified by "1" constrains table "PROBE.BATCH_T" from having duplicate values for the index key.. SQLCODE=-803, SQLSTATE=23505, DRIVER=4.38.7
+  next: 22001 -302 Error for batch element #6: The value of a host variable in the EXECUTE or OPEN statement is out of range for its corresponding use.. SQLCODE=-302, SQLSTATE=22001, DRIVER=4.38.7
+  row 1 a
+  row 2 null
+  row 3 ünï 😀
+  row 4 after dup
+batch w/ RETURN_GENERATED_KEYS -> [1, 1]
+  named-col key 4 (INTEGER)
+UPDATE with RETURN_GENERATED_KEYS -> 1 rows, 0 keys
+UPDATE batch (1 hit, 1 miss) -> [1, 0]
+batch into typed columns (values/nulls/mixed) -> [1, 1, 1]
+batch with changing param java types -> [1, 1, 1]
+
+##### STATEMENT CACHE / connection properties relevant to caching
+maxStatements supported: false
+enableSysplexWLB supported: false
+currentSchema supported: false
+fullyMaterializeLobData supported: false
+progressiveStreaming supported: false
+deferPrepares supported: false
+sendDataAsIs supported: false
+queryDataSize supported: false
+fetchSize supported: false
+resultSetHoldability supported: false
+currentLockTimeout supported: false
+allowNextOnExhaustedResultSet supported: false
+currentPackagePath supported: false
+isDB2Alive true, holdability 1, isolation 2, schema DB2INST1
