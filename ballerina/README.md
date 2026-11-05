@@ -18,23 +18,9 @@ The connector is built on the [`ballerina/sql`](https://central.ballerina.io/bal
 
 ## Setup guide
 
-### Add the driver
+### Get the driver
 
-The IBM JCC driver is provided by the `ballerinax/ibm.db2.driver` package. Import it alongside the connector:
-
-```ballerina
-import ballerinax/ibm.db2;
-import ballerinax/ibm.db2.driver as _;
-```
-
-You can also add another version of the driver yourself in the `Ballerina.toml` file:
-
-```toml
-[[platform.java21.dependency]]
-groupId = "com.ibm.db2"
-artifactId = "jcc"
-version = "12.1.5.0"
-```
+The connector does not bundle the IBM Data Server Driver for JDBC and SQLJ (JCC). IBM publishes it on Maven Central as [`com.ibm.db2:jcc`](https://central.sonatype.com/artifact/com.ibm.db2/jcc) under the [IBM International Program License Agreement](https://www.ibm.com/support/customer/csol/terms/?id=L-HJHH-A2W6TH), and every application adds it as a platform dependency of its own (see the quickstart). The connector is tested with driver 12.1.5.0.
 
 ### Get a database
 
@@ -56,10 +42,24 @@ The first start creates the instance and the database, which takes a few minutes
 import ballerina/io;
 import ballerina/sql;
 import ballerinax/ibm.db2;
-import ballerinax/ibm.db2.driver as _;
 ```
 
-### Step 2: Create a client
+### Step 2: Add the Db2 driver
+
+Add the IBM JCC driver as a platform dependency in the `Ballerina.toml` file of the application. Ballerina downloads it from Maven Central and puts it on the class path of the executable.
+
+```toml
+[[platform.java21.dependency]]
+groupId = "com.ibm.db2"
+artifactId = "jcc"
+version = "12.1.5.0"
+```
+
+To use a driver jar from a Db2 installation instead, point `path` at the file: `path = "./lib/db2jcc4.jar"`.
+
+In a project that also uses `ballerina/http`, the build warns that the driver conflicts with `lz4-java`. The driver carries its own copy of the LZ4 classes, and the warning can be ignored.
+
+### Step 3: Create a client
 
 ```ballerina
 configurable string host = ?;
@@ -73,7 +73,7 @@ final db2:Client dbClient = check new (host, user, password, database, port);
 
 The `database` is required. For Db2 for z/OS, it is the location name.
 
-### Step 3: Run operations
+### Step 4: Run operations
 
 ```ballerina
 type Employee record {|

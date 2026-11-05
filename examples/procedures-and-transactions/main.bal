@@ -17,7 +17,6 @@
 import ballerina/io;
 import ballerina/sql;
 import ballerinax/ibm.db2;
-import ballerinax/ibm.db2.driver as _;
 
 configurable string host = ?;
 configurable int port = ?;

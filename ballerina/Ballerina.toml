@@ -25,10 +25,11 @@ artifactId = "sql-native"
 version = "1.19.0"
 path = "./lib/sql-native-1.19.0.jar"
 
-# IBM JCC driver is only used for the test runs. Applications add it by importing `ballerinax/ibm.db2.driver`.
+# The IBM JCC driver is not bundled with the package. Applications add it as a platform dependency of their own
+# (see the README), so it is `provided` here and used only by the test runs.
 [[platform.java21.dependency]]
 groupId = "com.ibm.db2"
 artifactId = "jcc"
 version = "12.1.5.0"
 path = "./lib/jcc-12.1.5.0.jar"
-scope = "testOnly"
+scope = "provided"

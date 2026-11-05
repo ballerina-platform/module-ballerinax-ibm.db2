@@ -16,7 +16,6 @@
 
 import ballerina/http;
 import ballerinax/ibm.db2;
-import ballerinax/ibm.db2.driver as _;
 
 const ROWS = 8;
 

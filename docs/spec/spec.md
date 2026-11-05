@@ -34,7 +34,7 @@ The conforming implementation of the specification is released to Ballerina cent
 
 # 1. Overview
 
-This specification elaborates on the usage of the Db2 `Client` object to interface with an IBM Db2 database. The client works with Db2 for Linux, UNIX and Windows, Db2 for z/OS and Db2 for i through the IBM Data Server Driver for JDBC and SQLJ (JCC) type 4 driver, which is provided by the `ballerinax/ibm.db2.driver` package.
+This specification elaborates on the usage of the Db2 `Client` object to interface with an IBM Db2 database. The client works with Db2 for Linux, UNIX and Windows, Db2 for z/OS and Db2 for i through the IBM Data Server Driver for JDBC and SQLJ (JCC) type 4 driver. The driver is not bundled with the package; an application adds it as a platform dependency (`com.ibm.db2:jcc` on Maven Central or a `db2jcc4.jar` from a Db2 installation).
 
 `Client` supports five database operations as follows,
 1. Executes the query, which may return multiple results.

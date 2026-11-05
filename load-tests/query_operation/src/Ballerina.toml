@@ -5,3 +5,9 @@ version = "0.0.1"
 
 [build-options]
 cloud = "k8s"
+
+# The IBM JCC driver is not bundled with `ballerinax/ibm.db2`; every application adds it itself.
+[[platform.java21.dependency]]
+groupId = "com.ibm.db2"
+artifactId = "jcc"
+version = "12.1.5.0"
