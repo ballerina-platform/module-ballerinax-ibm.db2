@@ -10,8 +10,6 @@ This package provides the functionality required to access and manipulate data s
 
 [IBM Db2](https://www.ibm.com/db2) is a family of relational database servers that runs on Linux, UNIX and Windows (Db2 LUW), on IBM Z (Db2 for z/OS) and on IBM i, as well as a managed service on IBM Cloud and AWS.
 
-The connector is built on the [`ballerina/sql`](https://central.ballerina.io/ballerina/sql/latest) package and uses the IBM Data Server Driver for JDBC and SQLJ (JCC, type 4) to talk to the server, so it offers the same programming model as the other Ballerina SQL connectors.
-
 ### Key features
 
 - Query, execute, batch execute and stored procedure calls (IN, OUT, INOUT parameters and multiple result sets)
@@ -22,23 +20,17 @@ The connector is built on the [`ballerina/sql`](https://central.ballerina.io/bal
 - TLS and DRDA security mechanisms, including TLS client certificate authentication
 - Compile-time validation of connection pool and timeout values
 
-## Setup guide
+## Prerequisites
 
-### Get the driver
+- **An IBM Db2 server**, version 11.1 or later. For local development, run the free Db2 Community Edition. The first start creates the instance and the database, which takes a few minutes.
 
-The connector does not bundle the IBM Data Server Driver for JDBC and SQLJ (JCC). IBM publishes it on Maven Central as [`com.ibm.db2:jcc`](https://central.sonatype.com/artifact/com.ibm.db2/jcc) under the [IBM International Program License Agreement](https://www.ibm.com/support/customer/csol/terms/?id=L-HJHH-A2W6TH), and every application adds it as a platform dependency of its own (see the quickstart). The connector is tested with driver 12.1.5.0.
+  ```bash
+  docker run -d --name db2 --privileged -p 50000:50000 \
+    -e LICENSE=accept -e DB2INST1_PASSWORD=<password> -e DBNAME=SAMPLE \
+    icr.io/db2_community/db2:12.1.2.0
+  ```
 
-### Get a database
-
-Any Db2 11.1 or later server works. For local development, run the free Db2 Community Edition:
-
-```bash
-docker run -d --name db2 --privileged -p 50000:50000 \
-  -e LICENSE=accept -e DB2INST1_PASSWORD=<password> -e DBNAME=SAMPLE \
-  icr.io/db2_community/db2:12.1.2.0
-```
-
-The first start creates the instance and the database, which takes a few minutes.
+- **The IBM Data Server Driver for JDBC and SQLJ (JCC).** The connector does not bundle it. IBM publishes it on Maven Central as [`com.ibm.db2:jcc`](https://central.sonatype.com/artifact/com.ibm.db2/jcc) under the [IBM International Program License Agreement](https://www.ibm.com/support/customer/csol/terms/?id=L-HJHH-A2W6TH), and every application adds it as a platform dependency of its own (step 2 of the quickstart).
 
 ## Quickstart
 
@@ -89,22 +81,29 @@ type Employee record {|
 |};
 
 public function main() returns error? {
-    // Query with parameters. Values are always sent as bind parameters, never concatenated.
-    string dept = "ENG";
-    stream<Employee, sql:Error?> employees = dbClient->query(
-        `SELECT ID AS "id", NAME AS "name", SALARY AS "salary" FROM EMPLOYEE WHERE DEPT = ${dept}`);
+    // Create a table
+    _ = check dbClient->execute(`
+        CREATE TABLE EMPLOYEE (
+            ID     INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            NAME   VARCHAR(50) NOT NULL,
+            SALARY DECIMAL(10, 2) NOT NULL
+        )`);
+
+    // Insert a row. Values are sent as bind parameters.
+    string name = "Ann";
+    decimal salary = 9500.00;
+    sql:ExecutionResult result = check dbClient->execute(
+        `INSERT INTO EMPLOYEE (NAME, SALARY) VALUES (${name}, ${salary})`);
+    io:println("Inserted employee ", result.lastInsertId);
+
+    // Read the inserted data
+    stream<Employee, sql:Error?> employees = dbClient->query(`SELECT ID, NAME, SALARY FROM EMPLOYEE`);
     check from Employee e in employees
         do {
             io:println(e);
         };
 
-    // Single row or value
-    int count = check dbClient->queryRow(`SELECT COUNT(*) FROM EMPLOYEE`);
-
-    // Insert and read the generated identity value
-    sql:ExecutionResult result = check dbClient->execute(
-        `INSERT INTO EMPLOYEE (NAME, DEPT, SALARY) VALUES (${"Ann"}, ${dept}, ${9500.00d})`);
-    int|string? newId = result.lastInsertId;
+    check dbClient.close();
 }
 ```
 
@@ -203,6 +202,13 @@ Db2 procedures are called with `CALL` or the JDBC escape `{CALL ...}`. Functions
 
 All statements in a `batchExecute` call must have the same SQL text, so pass every changing value as a parameter, including identifiers such as `${id}` rather than a literal `1`. The statements are sent in chunks of 1,000, and a batch can run inside a `transaction` block.
 
+```ballerina
+string[] names = ["Ann", "Bob", "Cara"];
+sql:ParameterizedQuery[] inserts = from string employee in names
+    select `INSERT INTO EMPLOYEE (NAME, SALARY) VALUES (${employee}, ${5000.00d})`;
+sql:ExecutionResult[] results = check dbClient->batchExecute(inserts);
+```
+
 Bind values with the same type as the column (for example a `decimal` for a `DECIMAL` column): mixing an `int` value into a `DECIMAL` column makes the driver convert every row and made batches about 40% slower in our tests.
 
 Db2 keeps executing after a failed statement. The `sql:BatchExecuteError` carries an `affectedRowCount` of `-3` for each failed statement and the driver's batch failure code `-4229`; the rows that succeeded stay applied unless the batch runs in a transaction. The driver does not report the generated keys of a batch, so `lastInsertId` is `()` for batched inserts; a single `execute` does return the identity value.
@@ -214,22 +220,6 @@ Pass every value as a parameter. Quotes, backslashes, newlines, `NUL` characters
 Identifiers are folded to upper case unless quoted. A quoted identifier with spaces, a keyword or non-ASCII letters is returned under that exact name, so a record field for it needs a quoted identifier too: `record {| int 'my\ id; string 'select; |}`.
 
 Db2 accepts one statement per call. A second statement after a `;` fails with `SQL0104N`.
-
-### Concurrency and virtual threads
-
-The Ballerina runtime runs strands on Java virtual threads, and the IBM JCC driver does its network I/O inside `synchronized` methods. On Java 21 this pins the carrier thread for the duration of every database call, so by default an application can only have as many Db2 calls in flight as the machine has CPU cores, regardless of the pool size.
-
-For applications that run many database calls concurrently, raise the number of carrier threads when starting the program. About four times the number of cores worked best in our tests:
-
-```bash
-java -Djdk.virtualThreadScheduler.parallelism=16 -jar app.jar
-```
-
-On a 4-core host this doubled insert throughput at 16 concurrent workers (1,035 to 2,246 inserts per second) and raised a mixed read/update workload from 3,765 to 8,652 operations per second.
-
-### Distributed transactions
-
-Set `useXADatasource: true` on every client that takes part in an XA transaction. The Ballerina transaction manager uses one transaction branch for all resources, so the clients must point to different databases. Two XA clients on the same database in one transaction fail with `XAER_DUPID`; use a single client for each database instead.
 
 ### Errors
 
