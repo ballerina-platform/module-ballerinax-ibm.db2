@@ -27,7 +27,7 @@ import io.ballerina.stdlib.sql.nativeimpl.OutParameterProcessor;
  * Reads the OUT parameters defined by this module with the Db2 result processor. The OUT parameter classes of the
  * SQL module are always converted with the default processor, which cannot read Db2 binary and XML values.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class OutParameterProcessorUtils {
 

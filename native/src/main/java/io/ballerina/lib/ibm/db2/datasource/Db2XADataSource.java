@@ -44,7 +44,7 @@ import javax.sql.XAConnection;
  *     the physical XA connection, so the connections pooled by HikariCP do not leak.</li>
  * </ul>
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class Db2XADataSource extends DB2XADataSource implements DataSource {
 

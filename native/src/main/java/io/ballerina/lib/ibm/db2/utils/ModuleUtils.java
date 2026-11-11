@@ -24,7 +24,7 @@ import io.ballerina.runtime.api.Module;
 /**
  * Holds the `ballerinax/db2` module, which is needed to create its Ballerina objects from Java.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class ModuleUtils {
 

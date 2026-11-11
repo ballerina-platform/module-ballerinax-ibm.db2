@@ -24,7 +24,7 @@ import io.ballerina.runtime.api.values.BObject;
 /**
  * Reads the rows of query streams and procedure result sets with the Db2 result processor.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class RecordIteratorUtils {
 

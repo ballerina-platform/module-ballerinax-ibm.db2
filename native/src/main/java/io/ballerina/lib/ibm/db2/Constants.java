@@ -24,7 +24,7 @@ import io.ballerina.runtime.api.values.BString;
 /**
  * Constants for the Db2 connector.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class Constants {
 

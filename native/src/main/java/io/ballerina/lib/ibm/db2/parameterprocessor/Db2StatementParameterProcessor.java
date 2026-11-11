@@ -62,7 +62,7 @@ import java.util.TimeZone;
  * <li>the driver cannot bind arrays.</li>
  * </ul>
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class Db2StatementParameterProcessor extends DefaultStatementParameterProcessor {
 

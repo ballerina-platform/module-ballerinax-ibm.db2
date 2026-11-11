@@ -59,7 +59,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * `NaN` and `sNaN`, which have no Ballerina `decimal` representation. `XML` columns are parsed from their
  * serialized string form.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class Db2ResultParameterProcessor extends DefaultResultParameterProcessor {
 

@@ -26,7 +26,7 @@ import io.ballerina.runtime.api.values.BObject;
 /**
  * Native implementation of the Db2 client `execute` and `batchExecute` remote methods.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class ExecuteProcessorUtils {
 

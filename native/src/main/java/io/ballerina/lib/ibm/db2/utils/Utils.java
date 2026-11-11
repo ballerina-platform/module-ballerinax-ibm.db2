@@ -29,7 +29,7 @@ import java.util.Locale;
 /**
  * Maps the Ballerina `db2:Options` record to IBM JCC driver properties.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class Utils {
 

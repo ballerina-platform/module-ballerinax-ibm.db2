@@ -1,7 +1,7 @@
 [package]
 org = "ballerinax"
 name = "ibm.db2"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["Ballerina"]
 keywords = ["Client", "Network", "SQL", "RDBMS", "Db2", "DB2", "IBM", "Name/IBM Db2", "Vendor/IBM", "Area/Database", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-ibm.db2"
@@ -16,8 +16,8 @@ graalvmCompatible = true
 [[platform.java21.dependency]]
 groupId = "io.ballerina.lib"
 artifactId = "ibm.db2-native"
-version = "0.1.0"
-path = "../native/build/libs/ibm.db2-native-0.1.0-SNAPSHOT.jar"
+version = "1.0.0"
+path = "../native/build/libs/ibm.db2-native-1.0.0-SNAPSHOT.jar"
 
 [[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"

@@ -28,7 +28,7 @@ import io.ballerina.runtime.api.values.BTypedesc;
 /**
  * Native implementation of the Db2 client `query` and `queryRow` remote methods.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public final class QueryProcessorUtils {
 

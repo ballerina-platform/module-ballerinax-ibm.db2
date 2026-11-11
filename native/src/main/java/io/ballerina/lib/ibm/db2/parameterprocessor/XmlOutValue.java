@@ -36,7 +36,7 @@ import javax.xml.transform.Source;
  * The serialized document of an XML OUT parameter. The driver's own {@code SQLXML} can be read only once, so the
  * document is kept as a string and handed out as a re-readable value.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 final class XmlOutValue implements SQLXML {
 
