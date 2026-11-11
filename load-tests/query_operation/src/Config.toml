@@ -1,0 +1,5 @@
+dbHost = "db2-service"
+dbUsername = "db2inst1"
+dbPassword = "Test123#"
+dbName = "EXAMPLE"
+dbPort = 50000

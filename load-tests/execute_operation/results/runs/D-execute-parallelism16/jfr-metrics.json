@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "Label": "HTTP Request",
+    "# Samples": 209777,
+    "Average": 77,
+    "Median": 80,
+    "90% Line": 123,
+    "95% Line": 181,
+    "99% Line": 217,
+    "Min": 0,
+    "Max": 584,
+    "Error %": "0.00%",
+    "Throughput": 699.4,
+    "Received KB/sec": 86.7,
+    "Std. Dev.": 48.16,
+    "Date": 1793263796,
+    "Payload": 50,
+    "Users": 60
+  },
+  "jvm": {
+    "heapAfterGcMiB": {
+      "min": 9.6,
+      "median": 21.6,
+      "max": 22.3,
+      "lastMinuteAvg": 22.1
+    },
+    "gc": {
+      "collections": 1322,
+      "names": [
+        "DefNew",
+        "SerialOld"
+      ],
+      "pauseMsP50": 5.39,
+      "pauseMsMax": 187.49,
+      "totalPauseMs": 8260.7,
+      "pauseTimePercent": 2.66
+    },
+    "cpuJvmPercent": {
+      "median": 25.3,
+      "max": 26.4
+    },
+    "platformThreadsMax": 53,
+    "allocationMiBPerSecMedian": 45.6,
+    "virtualThreadPinnedEvents": 38141,
+    "virtualThreadPinned": {
+      "durationMsP50": 53.5,
+      "durationMsMax": 579.2,
+      "topJccFrames": [
+        [
+          "com.ibm.db2.jcc.t4.x.b",
+          38141
+        ]
+      ]
+    },
+    "container": {
+      "duration": "PT0S",
+      "eventThread": {
+        "osName": "main",
+        "osThreadId": 7,
+        "javaName": "main",
+        "javaThreadId": 1,
+        "group": {
+          "parent": {
+            "parent": null,
+            "name": "system"
+          },
+          "name": "main"
+        },
+        "virtual": false
+      },
+      "stackTrace": null,
+      "containerType": "cgroupv2",
+      "cpuSlicePeriod": "PT0.1S",
+      "cpuQuota": "PT0.1S",
+      "cpuShares": -1,
+      "effectiveCpuCount": 1,
+      "memorySoftLimit": 0,
+      "memoryLimit": 536870912,
+      "swapMemoryLimit": 1073741824,
+      "hostTotalMemory": 16086454272
+    },
+    "gcConfiguration": {
+      "youngCollector": "DefNew",
+      "oldCollector": "SerialOld",
+      "parallelGCThreads": 0,
+      "concurrentGCThreads": 0,
+      "usesDynamicGCThreads": true,
+      "isExplicitGCConcurrent": false,
+      "isExplicitGCDisabled": false,
+      "pauseTarget": "PT-2562047788015215H-30M-8S",
+      "gcTimeRatio": 99
+    },
+    "jmcReport": true
+  }
+}

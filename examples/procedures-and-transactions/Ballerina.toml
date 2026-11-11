@@ -1,0 +1,14 @@
+[package]
+org = "db2"
+name = "procedures_and_transactions"
+version = "0.1.0"
+distribution = "2201.13.0"
+
+[build-options]
+observabilityIncluded = true
+
+# The IBM JCC driver is not bundled with `ballerinax/ibm.db2`; every application adds it itself.
+[[platform.java21.dependency]]
+groupId = "com.ibm.db2"
+artifactId = "jcc"
+version = "12.1.5.0"

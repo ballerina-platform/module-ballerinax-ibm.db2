@@ -1,0 +1,53 @@
+##### BOOLEAN OUT getters
+registered as 16:  p2[getBoolean=true getInt=1 getString=1 getObject= getObject!(-4461)] p3[getBoolean=false getInt=0 getString=0 getObject= getObject!(-4461)] p4[getBoolean=false(null) getInt=0 getString=null getObject=null]
+registered as -7:  p2[getBoolean=true getInt=1 getString=1 getObject= getObject!(-4461)] p3[getBoolean=false getInt=0 getString=0 getObject= getObject!(-4461)] p4[getBoolean=false(null) getInt=0 getString=null getObject=null]
+registered as 5:  p2[getBoolean=true getInt=1 getString=1 getObject= getObject!(-4461)] p3[getBoolean=false getInt=0 getString=0 getObject= getObject!(-4461)] p4[getBoolean=false(null) getInt=0 getString=null getObject=null]
+registered as 4:  p2[getBoolean=true getInt=1 getString=1 getObject= getObject!(-4461)] p3[getBoolean=false getInt=0 getString=0 getObject= getObject!(-4461)] p4[getBoolean=false(null) getInt=0 getString=null getObject=null]
+registered as 12:  p2[getBoolean=true getInt=1 getString=1 getObject= getObject!(-4461)] p3[getBoolean=false getInt=0 getString=0 getObject= getObject!(-4461)] p4[getBoolean=false(null) getInt=0 getString=null getObject=null]
+registered as 1:  p2[getBoolean=true getInt=1 getString=1 getObject= getObject!(-4461)] p3[getBoolean=false getInt=0 getString=0 getObject= getObject!(-4461)] p4[getBoolean=false(null) getInt=0 getString=null getObject=null]
+IN setInt(0) -> p2 getBoolean=false
+IN setString(false) -> p2 getBoolean=false
+IN setNull(VARCHAR) -> p2 getBoolean=false wasNull=true
+
+##### INOUT nulls: set type vs register type
+OK   setNull(VARCHAR) + register VARCHAR for all -> p1=was null! p2=1.00 p3=2000-01-01 00:00:00.0 p4=<null/>
+OK   setNull(matching) + register matching -> p1=was null! p2=1.00 p3=2000-01-01 00:00:00.0 p4=<null/>
+OK   setObject(null) + register matching -> p1=was null! p2=1.00 p3=2000-01-01 00:00:00.0 p4=<null/>
+FAIL setNull(VARCHAR) + register matching (mismatch) -> -4220 [jcc][10252][10294][4.38.7] The jdbcType -100001 does not match between the set method and the registerOutParameter method. ERRORCODE=-4220, SQLSTATE=null
+OK   setBigDecimal(1.5) + register NUMERIC (DECIMAL col) -> p1=a! p2=2.50 p3=2024-02-29 10:11:12.0 p4=<a/>
+FAIL setLong(2) + register BIGINT (DECIMAL col) ; setString for TS; SQLXML obj for XML + register SQLXML -> -4220 [jcc][10252][10294][4.38.7] The jdbcType 93 does not match between the set method and the registerOutParameter method. ERRORCODE=-4220, SQLSTATE=null
+OK   setString('2024-02-29 10:11:12.5') for TS + register VARCHAR -> p1=a! p2=3 p3=2024-02-29 10:11:12.5 p4=<b/>
+
+##### TIMESTAMP(12) OUT precision; DECFLOAT special OUT; GRAPHIC OUT registered as NCHAR; BINARY OUT via getBytes/getString
+TS12 getTimestamp=2024-02-29 10:11:12.123456789 nanos=123456789 getString=2024-02-29 10:11:12.123456789
+TS0 getTimestamp=2024-02-29 10:11:12.0 getString=2024-02-29 10:11:12.0
+DECFLOAT NaN as DECIMAL getBigDecimal FAILED: [jcc][t4][6011][10987][4.38.7] An error occurred during the conversion of column 3 of type DECFLOAT(34) with a NaN value to a value of type java.math.BigDecimal. ERRORCODE=-4231, SQLSTATE=null
+DECFLOAT NaN as DECIMAL getString=NaN
+DECFLOAT NaN as DECIMAL getDouble=NaN
+DECFLOAT -Inf as VARCHAR getString=-Infinity getDouble=-Infinity
+BINARY getBytes=0x01020304 getString=01020304 getObject=byte[]
+VARBINARY getBytes=0x0A0B getString=0a0b
+CHAR FOR BIT getBytes=0xDEADBEEF getString=deadbeef
+PREC_OUT FAILED: [jcc][t4][10181][12007][4.38.7] Method getNString is not supported. ERRORCODE=-4450, SQLSTATE=0A504
+
+##### ARRAY support
+createArrayOf OK: com.ibm.db2.jcc.am.u@5276e6b0
+array procedure FAILED: [jcc][10349][11717][4.38.7] Unsupported cross conversion from source type Object;. ERRORCODE=-4461, SQLSTATE=42815
+ARRAY literal FAILED: An unexpected token "ARRAY[" was found following "".  Expected tokens may include:  "<name>".. SQLCODE=-104, SQLSTATE=42601, DRIVER=4.38.7
+
+##### Procedure result set metadata vs direct query (all types)
+ID=4/INTEGER C_SMALLINT=5/SMALLINT C_INT=4/INTEGER C_BIGINT=-5/BIGINT C_DECIMAL=3/DECIMAL C_NUMERIC=3/DECIMAL C_REAL=7/REAL C_DOUBLE=8/DOUBLE C_DECFLOAT16=1111/DECFLOAT C_DECFLOAT34=1111/DECFLOAT C_CHAR=1/CHAR C_VARCHAR=12/VARCHAR C_CLOB=2005/CLOB C_GRAPHIC=-15/GRAPHIC C_VARGRAPHIC=-9/VARGRAPHIC C_DBCLOB=2011/DBCLOB C_BINARY=-2/BINARY C_VARBINARY=-3/VARBINARY C_BLOB=2004/BLOB C_CHAR_BIT=-2/CHAR FOR BIT DATA C_DATE=91/DATE C_TIME=92/TIME C_TIMESTAMP=93/TIMESTAMP C_TIMESTAMP12=93/TIMESTAMP C_BOOLEAN=16/BOOLEAN C_XML=2009/XML 
+XML from proc rs: <employee><name>Ann</name></employee>; DECFLOAT getObject: 123.456; BOOLEAN getObject: true (Boolean)
+
+##### Cursor holdability / stream after commit; result set type
+default rs type=1003 concurrency=1007 holdability=1 fetchSize=0
+rows read across a commit: 20000
+
+##### Identifier special characters
+  column label='a b' name='a b' -> 1
+  column label='select' name='select' -> x
+  column label='ünï' name='ünï' -> 2
+  column label='q"q' name='q"q' -> 3
+  alias label='my id' name='ID'
+  alias label='LOWER_ALIAS' name='NAME'
+  alias label='MiXeD' name='NAME'

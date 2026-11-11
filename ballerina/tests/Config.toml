@@ -1,0 +1,6 @@
+# Credentials of the Db2 container started with tests/resources/compose.yaml
+password = "Test123#"
+
+[ballerina.sql]
+maxOpenConnections = 10
+minIdleConnections = 2
