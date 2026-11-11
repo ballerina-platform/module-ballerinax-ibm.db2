@@ -119,6 +119,8 @@ db2:Options options = {
 db2:Client dbClient = check new (host, user, password, database, port, options);
 ```
 
+When `securityMechanism` is not set, the driver negotiates it with the server, and on a plain connection the user ID and password can be sent in clear text. Set `secureSocket` so that the whole session is encrypted, or choose an encrypted mechanism such as `ENCRYPTED_USER_AND_PASSWORD`. Use `CLEAR_TEXT_PASSWORD` only together with `secureSocket`.
+
 Any other [JCC property](https://www.ibm.com/docs/en/db2/12.1.x?topic=information-data-server-driver-jdbc-sqlj-properties) can be passed through `properties`, for example client reroute settings or IBM Cloud IAM authentication:
 
 ```ballerina
@@ -149,7 +151,7 @@ Every `sql:*Value` typed parameter of the `ballerina/sql` module is supported ex
 
 - **Nulls.** A `()` or a typed null such as `new sql:DecimalValue()` can be bound to a column of any type.
 - **Instants.** Db2 has no time zone types. A `time:Utc` value, and a `time:Civil` value with a `utcOffset`, are stored as the UTC wall clock time with their full precision. A `TIMESTAMP` column read as `time:Utc` or `int` (epoch milliseconds) is interpreted as UTC, so these values round-trip. A `time:TimeOfDay` with a `utcOffset` is rejected because `TIME` has no zone.
-- **Fractions of a second.** `TIME` has no fractional seconds: the fraction of a `time:TimeOfDay` is dropped and a string such as `"10:11:12.5"` fails with `SQL0180N`. `TIMESTAMP(12)` keeps the nine digits a `time:Civil` can hold.
+- **Fractions of a second.** `TIME` has no fractional seconds: the fraction of a `time:TimeOfDay` is dropped and a string such as `"10:11:12.5"` fails with `SQL0180N`. `TIMESTAMP` without a precision is `TIMESTAMP(6)`, so a value with nanoseconds needs `TIMESTAMP(9)` or more; Db2 truncates extra digits without an error. Reads keep at most nine digits, even as `string`. To read all twelve digits of a `TIMESTAMP(12)` column, cast it in the query (`SELECT VARCHAR(TS) AS TS ...`) and read it as `string`.
 - **`NaN` and `Infinity`.** A `float` that is not finite cannot be bound: `DOUBLE` and `REAL` have no such values, and the driver cannot bind them for `DECFLOAT`. The connector rejects them with a clear error; use the SQL literal `DECFLOAT('NaN')` instead. Reading such a `DECFLOAT` value into a `decimal` field is an error; use `float` or `string`.
 - **Numeric conversions.** An `int` or `float` bound to a `DECIMAL` column and a `decimal` bound to a `DOUBLE` column are converted by the server. A `decimal` bound to an `INTEGER` column is truncated by the driver (`12.7` becomes `12`). A value too large for the column fails: `SQL0302N` (SQLSTATE `22001`/`22003`) from the server, or `-4461` from the driver for an `int` outside `SMALLINT` or `INTEGER`.
 - **Lengths are in bytes.** `CHAR`, `VARCHAR` and `CLOB` lengths count UTF-8 bytes, so `VARCHAR(50)` holds 12 emoji (48 bytes) but not 13. `GRAPHIC`, `VARGRAPHIC` and `DBCLOB` lengths count UTF-16 code units (an emoji needs two). `LENGTH()` returns bytes; use `CHARACTER_LENGTH(x, CODEUNITS32)` for characters.
